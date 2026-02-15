@@ -59,11 +59,6 @@ export const TruthEngine: React.FC = () => {
                         </div>
                     </div>
 
-                    <nav className="flex items-center gap-6 text-sm">
-                        <a href="index.html" className="text-slate-400 hover:text-white transition-colors">Dashboard</a>
-                        <a href="quant2_dashboard.html" className="text-slate-400 hover:text-white transition-colors">Quant 2.0</a>
-                        <span className="text-emerald-400 font-semibold">Truth Engine</span>
-                    </nav>
                 </div>
             </header>
 
