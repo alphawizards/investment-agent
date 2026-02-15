@@ -1,0 +1,77 @@
+{
+  "generated_at": "2025-12-26T10:13:43.633416",
+  "regime": {
+    "current": "BULL",
+    "probabilities": {
+      "bull": 0.72,
+      "bear": 0.08,
+      "chop": 0.2
+    },
+    "days_in_regime": 34,
+    "last_switch": "2024-11-22"
+  },
+  "strategies": {
+    "residual_momentum": {
+      "top_score": 2.34,
+      "stocks_ranked": 48,
+      "avg_r2": 0.42,
+      "status": "active"
+    },
+    "stat_arb": {
+      "active_pairs": 12,
+      "clusters": 5,
+      "avg_half_life": 8.2,
+      "signals_today": 3
+    },
+    "regime_allocation": {
+      "current_regime": "BULL",
+      "confidence": 0.72,
+      "days_in_regime": 34
+    },
+    "meta_labeling": {
+      "signals_today": 7,
+      "accepted": 3,
+      "model_auc": 0.71,
+      "filter_rate": 0.57
+    },
+    "short_vol": {
+      "vix": 14.2,
+      "percentile": 22,
+      "signal": "HARVEST",
+      "term_structure": "contango"
+    },
+    "nco": {
+      "effective_n": 8.4,
+      "max_weight": 0.18,
+      "exp_return": 0.124,
+      "exp_vol": 0.082
+    }
+  },
+  "allocation": {
+    "residual_momentum": 0.4,
+    "stat_arb": 0.25,
+    "short_vol": 0.2,
+    "cash": 0.15
+  },
+  "ytd_performance": {
+    "residual_momentum": 0.182,
+    "stat_arb": 0.124,
+    "regime": 0.151,
+    "meta_labeling": 0.223,
+    "short_vol": 0.087
+  },
+  "activity": [
+    {
+      "type": "regime",
+      "title": "Regime Change Detected",
+      "description": "HMM transitioned from CHOP to BULL (72% confidence)",
+      "timestamp": "2 hours ago"
+    },
+    {
+      "type": "signal",
+      "title": "Meta-Label Signal: AAPL",
+      "description": "Quallamaggie breakout accepted (P=0.78)",
+      "timestamp": "4 hours ago"
+    }
+  ]
+}

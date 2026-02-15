@@ -1,0 +1,63 @@
+# Traefik Dynamic Configuration
+# Security headers and routing rules
+
+http:
+  middlewares:
+    # Security headers middleware
+    security-headers:
+      headers:
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "strict-origin-when-cross-origin"
+        customResponseHeaders:
+          X-Robots-Tag: "noindex, nofollow"
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+
+    # Rate limiting middleware
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+        period: 1m
+
+    # API key validation (for protected endpoints)
+    api-auth:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+
+  routers:
+    # Dashboard router
+    dashboard:
+      rule: "PathPrefix(`/`)"
+      service: dashboard
+      middlewares:
+        - security-headers
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # API router
+    api:
+      rule: "PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/health`)"
+      service: backend
+      middlewares:
+        - security-headers
+        - rate-limit
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    dashboard:
+      loadBalancer:
+        servers:
+          - url: "http://dashboard:80"
+
+    backend:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000"

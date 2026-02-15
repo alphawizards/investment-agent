@@ -1,0 +1,54 @@
+# Git
+.git
+.gitignore
+.gitconfig
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache
+.coverage
+htmlcov/
+.ruff_cache
+
+# Virtual environments
+venv/
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Test files
+tests/
+test_*.py
+*.test.js
+
+# Documentation
+*.md
+*.pdf
+docs/
+
+# Reports (will be mounted as volume)
+reports/
+backtest_results/
+
+# Cache (will be mounted as volume)
+cache/
+
+# Node
+node_modules/
+package*.json
+playwright.config.js
+playwright-report/
+
+# Misc
+.claude/
+.emergent/
+.pre-commit-config.yaml
+*.log

@@ -1,0 +1,93 @@
+{
+  "generated_at": "2025-12-26T10:13:43.634424",
+  "config": {
+    "lookback_months": 36,
+    "scoring_months": 12,
+    "min_r2": 0.25
+  },
+  "summary": {
+    "top_score": 2.34,
+    "stocks_ranked": 48,
+    "avg_r2": 0.42
+  },
+  "top_ranked": [
+    {
+      "rank": 1,
+      "ticker": "NVDA",
+      "score": 2.34,
+      "r2": 0.52,
+      "mkt_beta": 1.42,
+      "smb_beta": -0.18,
+      "hml_beta": -0.65,
+      "resid_vol": 0.182
+    },
+    {
+      "rank": 2,
+      "ticker": "META",
+      "score": 2.18,
+      "r2": 0.48,
+      "mkt_beta": 1.28,
+      "smb_beta": -0.24,
+      "hml_beta": -0.42,
+      "resid_vol": 0.164
+    },
+    {
+      "rank": 3,
+      "ticker": "AMZN",
+      "score": 1.87,
+      "r2": 0.55,
+      "mkt_beta": 1.18,
+      "smb_beta": -0.12,
+      "hml_beta": -0.38,
+      "resid_vol": 0.148
+    },
+    {
+      "rank": 4,
+      "ticker": "LLY",
+      "score": 1.72,
+      "r2": 0.38,
+      "mkt_beta": 0.72,
+      "smb_beta": -0.08,
+      "hml_beta": -0.22,
+      "resid_vol": 0.121
+    },
+    {
+      "rank": 5,
+      "ticker": "MSFT",
+      "score": 1.54,
+      "r2": 0.62,
+      "mkt_beta": 1.08,
+      "smb_beta": -0.15,
+      "hml_beta": -0.28,
+      "resid_vol": 0.114
+    }
+  ],
+  "bottom_ranked": [
+    {
+      "rank": 46,
+      "ticker": "PARA",
+      "score": -1.42,
+      "r2": 0.41,
+      "signal": "AVOID"
+    },
+    {
+      "rank": 47,
+      "ticker": "WBD",
+      "score": -1.68,
+      "r2": 0.38,
+      "signal": "AVOID"
+    },
+    {
+      "rank": 48,
+      "ticker": "INTC",
+      "score": -2.15,
+      "r2": 0.52,
+      "signal": "AVOID"
+    }
+  ],
+  "avg_factor_exposures": {
+    "mkt_beta": 1.12,
+    "smb_beta": -0.08,
+    "hml_beta": -0.34
+  }
+}

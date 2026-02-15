@@ -1,0 +1,24 @@
+Generic single-database configuration with async support.
+
+## Common Commands
+
+# Create a new migration (auto-detect changes)
+alembic revision --autogenerate -m "Description of changes"
+
+# Create a blank migration
+alembic revision -m "Description of changes"
+
+# Upgrade to latest version
+alembic upgrade head
+
+# Downgrade one version
+alembic downgrade -1
+
+# Show current version
+alembic current
+
+# Show migration history
+alembic history
+
+# Show SQL for upgrade (without executing)
+alembic upgrade head --sql

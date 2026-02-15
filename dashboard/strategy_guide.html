@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy Guide - Trading Pipeline</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --accent: #00d4ff;
+            --accent-alt: #7b68ee;
+            --success: #00ff88;
+            --danger: #ff4466;
+            --warning: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 24px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--accent);
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: var(--accent);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 40px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 24px 0 12px;
+            color: var(--accent);
+        }
+
+        .intro {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .strategy-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .strategy-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .strategy-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-momentum {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .icon-dual {
+            background: rgba(123, 104, 238, 0.2);
+        }
+
+        .icon-hrp {
+            background: rgba(0, 255, 136, 0.2);
+        }
+
+        .rule-box {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .rule-box.entry {
+            border-left-color: var(--success);
+        }
+
+        .rule-box.exit {
+            border-left-color: var(--danger);
+        }
+
+        .rule-box.hold {
+            border-left-color: var(--warning);
+        }
+
+        .rule-title {
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .rule-title.entry {
+            color: var(--success);
+        }
+
+        .rule-title.exit {
+            color: var(--danger);
+        }
+
+        .rule-title.hold {
+            color: var(--warning);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        th,
+        td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin: 16px 0;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .param-table {
+            font-size: 14px;
+        }
+
+        .param-table td {
+            padding: 8px 12px;
+        }
+
+        .param-value {
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .comparison-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .comparison-card h4 {
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        .note {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .note strong {
+            color: var(--accent);
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 20px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Quant<span>Dash</span></div>
+        <nav>
+            <a href="strategy_dashboard.html">Dashboard</a>
+            <a href="quallamaggie_scanner.html">🎯 Scanner</a>
+            <a href="strategy_guide.html" class="active">Strategy Guide</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>📚 Strategy Trading Guide</h1>
+        <p class="intro">
+            Practical execution rules for each momentum strategy. These are the exact rules
+            the trading pipeline uses to generate buy/sell signals.
+        </p>
+
+        <!-- Momentum Strategies -->
+        <section class="strategy-section">
+            <div class="strategy-header">
+                <div class="strategy-icon icon-momentum">📈</div>
+                <div>
+                    <h2 style="margin:0; border:none; padding:0;">Momentum Strategies (1M, 3M, 6M)</h2>
+                    <p style="color: var(--text-secondary); margin-top: 4px;">
+                        Cross-sectional momentum ranking with lookback periods
+                    </p>
+                </div>
+            </div>
+
+            <h3>How It Works</h3>
+            <p>Momentum strategies rank all assets by their returns over a lookback period and invest
+                in the top performers. The number after "Momentum_" indicates the lookback window:</p>
+
+            <table class="param-table">
+                <tr>
+                    <th>Strategy</th>
+                    <th>Lookback Days</th>
+                    <th>Calendar Period</th>
+                    <th>Best For</th>
+                </tr>
+                <tr>
+                    <td>Momentum_1M</td>
+                    <td class="param-value">21 days</td>
+                    <td>~1 month</td>
+                    <td>Short-term trends, volatile markets</td>
+                </tr>
+                <tr>
+                    <td>Momentum_3M</td>
+                    <td class="param-value">63 days</td>
+                    <td>~3 months</td>
+                    <td>Medium-term momentum</td>
+                </tr>
+                <tr>
+                    <td>Momentum_6M</td>
+                    <td class="param-value">126 days</td>
+                    <td>~6 months</td>
+                    <td>Strong trends, lower turnover</td>
+                </tr>
+            </table>
+
+            <h3>Step-by-Step Execution</h3>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Calculate Returns</h4>
+                    <p>For each asset, calculate the percentage return over the lookback period:
+                        <code>return = (price_today / price_N_days_ago) - 1</code>
+                    </p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Filter Negative Momentum</h4>
+                    <p>Remove any assets with negative returns. Only consider assets with
+                        <code>return > 0%</code> (configurable via min_momentum parameter)
+                    </p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Rank and Select Top N</h4>
+                    <p>Rank remaining assets by return. Select the top <code>N = 5</code> performers
+                        (configurable). These receive a BUY signal.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Calculate Weights</h4>
+                    <p>Equal-weight the selected assets, or use HRP optimizer for risk-adjusted weights.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>Rebalance Monthly</h4>
+                    <p>Re-run the process at the start of each month. Sell assets that drop out
+                        of top N, buy new ones that enter.</p>
+                </div>
+            </div>
+
+            <div class="rule-box entry">
+                <div class="rule-title entry">📥 Entry Rules</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Asset is in TOP 5 by lookback return</li>
+                    <li>Lookback return > 0% (positive momentum)</li>
+                    <li>Sufficient trading volume and liquidity</li>
+                </ul>
+            </div>
+
+            <div class="rule-box exit">
+                <div class="rule-title exit">📤 Exit Rules</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Asset drops out of TOP 5 ranking</li>
+                    <li>Momentum turns negative</li>
+                    <li>Monthly rebalance date reached</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>💡 Tip:</strong> Research shows 6-12 month momentum works best for ETFs.
+                Shorter lookbacks (1M) capture trends faster but generate higher turnover and costs.
+            </div>
+        </section>
+
+        <!-- Dual Momentum -->
+        <section class="strategy-section">
+            <div class="strategy-header">
+                <div class="strategy-icon icon-dual">⚖️</div>
+                <div>
+                    <h2 style="margin:0; border:none; padding:0;">Dual Momentum</h2>
+                    <p style="color: var(--text-secondary); margin-top: 4px;">
+                        Gary Antonacci's absolute + relative momentum
+                    </p>
+                </div>
+            </div>
+
+            <h3>The Dual Momentum Concept</h3>
+            <p>Dual Momentum combines two momentum signals:</p>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Question</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><strong>Absolute Momentum</strong></td>
+                    <td>Is the best asset outperforming cash?</td>
+                    <td>If NO → Hold bonds/cash</td>
+                </tr>
+                <tr>
+                    <td><strong>Relative Momentum</strong></td>
+                    <td>Which asset is strongest?</td>
+                    <td>Buy the winner</td>
+                </tr>
+            </table>
+
+            <h3>Step-by-Step Execution</h3>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Calculate 12-Month Returns</h4>
+                    <p>Compute the return for each asset over 252 trading days (1 year).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Absolute Momentum Check</h4>
+                    <p>Compare best asset's return to risk-free rate (~4%).
+                        If <code>best_return > 4%</code>, proceed. Otherwise, go to cash/bonds.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Relative Momentum Selection</h4>
+                    <p>Among risky assets (stocks, commodities), select the one with highest
+                        12-month return. Invest 100% in this asset.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Monthly Rebalance</h4>
+                    <p>Check signals monthly. If momentum shifts, switch to new winner or to bonds.</p>
+                </div>
+            </div>
+
+            <div class="rule-box entry">
+                <div class="rule-title entry">📥 Entry Rules</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>12-month return > risk-free rate (absolute momentum positive)</li>
+                    <li>Asset has highest return among universe (relative momentum winner)</li>
+                </ul>
+            </div>
+
+            <div class="rule-box exit">
+                <div class="rule-title exit">📤 Exit Rules</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>12-month return falls below risk-free rate → exit to bonds</li>
+                    <li>Another asset becomes the momentum winner → rotate</li>
+                </ul>
+            </div>
+
+            <div class="rule-box hold">
+                <div class="rule-title hold">⏸️ Defensive Mode</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>When absolute momentum is negative, hold Treasury bonds (TLT/IEF)</li>
+                    <li>This protects capital during bear markets</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- HRP -->
+        <section class="strategy-section">
+            <div class="strategy-header">
+                <div class="strategy-icon icon-hrp">🌐</div>
+                <div>
+                    <h2 style="margin:0; border:none; padding:0;">HRP (Hierarchical Risk Parity)</h2>
+                    <p style="color: var(--text-secondary); margin-top: 4px;">
+                        Lopez de Prado's machine-learning based allocation
+                    </p>
+                </div>
+            </div>
+
+            <h3>How HRP Works</h3>
+            <p>HRP uses correlation clustering to build a diversified portfolio without
+                needing return predictions. It's purely risk-based.</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Build Correlation Matrix</h4>
+                    <p>Calculate pairwise correlations between all assets over the lookback period.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Hierarchical Clustering</h4>
+                    <p>Group similar assets together using linkage algorithm. Creates a tree structure.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Quasi-Diagonalization</h4>
+                    <p>Reorder assets so highly correlated ones are adjacent. This improves diversification.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Recursive Bisection</h4>
+                    <p>Allocate weights by inverse variance, splitting portfolio recursively
+                        between clusters.</p>
+                </div>
+            </div>
+
+            <div class="rule-box entry">
+                <div class="rule-title entry">📥 Entry Rules</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>All assets are always included (never 0% weight)</li>
+                    <li>Weights determined by risk contribution, not momentum</li>
+                </ul>
+            </div>
+
+            <div class="rule-box hold">
+                <div class="rule-title hold">⏸️ Rebalancing</div>
+                <ul style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Monthly: recalculate correlations and re-optimize weights</li>
+                    <li>Only trade if weight drift exceeds 5% threshold</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>💡 HRP Advantage:</strong> Unlike mean-variance optimization, HRP doesn't
+                require return forecasts. It focuses purely on diversification, making it more
+                robust to estimation error.
+            </div>
+        </section>
+
+        <!-- Quick Comparison -->
+        <h2>Quick Comparison</h2>
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <h4>📈 Momentum (1M/3M/6M)</h4>
+                <div class="metric-row">
+                    <span class="metric-label">Rebalance</span>
+                    <span class="metric-value">Monthly</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Holdings</span>
+                    <span class="metric-value">Top 5 assets</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Turnover</span>
+                    <span class="metric-value">Medium-High</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Best For</span>
+                    <span class="metric-value">Trending markets</span>
+                </div>
+            </div>
+
+            <div class="comparison-card">
+                <h4>⚖️ Dual Momentum</h4>
+                <div class="metric-row">
+                    <span class="metric-label">Rebalance</span>
+                    <span class="metric-value">Monthly</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Holdings</span>
+                    <span class="metric-value">1-2 assets</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Turnover</span>
+                    <span class="metric-value">Low</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Best For</span>
+                    <span class="metric-value">Crash protection</span>
+                </div>
+            </div>
+
+            <div class="comparison-card">
+                <h4>🌐 HRP</h4>
+                <div class="metric-row">
+                    <span class="metric-label">Rebalance</span>
+                    <span class="metric-value">Monthly</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Holdings</span>
+                    <span class="metric-value">All assets</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Turnover</span>
+                    <span class="metric-value">Very Low</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Best For</span>
+                    <span class="metric-value">Stable returns</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{
+  "generated_at": "2025-12-26T13:44:03.065018",
+  "n_universe": 665,
+  "n_candidates": 0,
+  "top_breakouts": [],
+  "criteria": {
+    "above_ma50": true,
+    "above_ma20": true,
+    "near_52w_high": "within 10%"
+  }
+}

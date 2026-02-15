@@ -1,0 +1,24 @@
+{
+  "run_date": "2025-12-26T08:25:58.987488",
+  "sma": {
+    "best_params": {
+      "window": 20,
+      "epsilon": 1.259558919885606
+    },
+    "best_sharpe": 0.8464638610226592,
+    "best_total_return": 6.002178264340977,
+    "best_max_drawdown": -0.5869861961817991,
+    "n_trials": 15
+  },
+  "ema": {
+    "best_params": {
+      "span": 13,
+      "epsilon": 35.0933218793842
+    },
+    "best_sharpe": 0.6607214487478072,
+    "best_total_return": 3.3314585471769522,
+    "best_max_drawdown": -0.7197072571365662,
+    "n_trials": 15
+  },
+  "winner": "SMA"
+}

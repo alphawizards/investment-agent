@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant 2.0 Strategy Guide</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --accent: #00d4ff;
+            --accent-alt: #7b68ee;
+            --success: #00ff88;
+            --danger: #ff4466;
+            --warning: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .toc-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            list-style: none;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        /* Strategy Sections */
+        .strategy-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .strategy-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .strategy-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .strategy-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .strategy-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 24px 0 12px 0;
+        }
+
+        h3:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        /* Rules List */
+        .rules-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .rules-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .rules-list li:last-child {
+            border-bottom: none;
+        }
+
+        .rule-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .rule-content {
+            flex: 1;
+        }
+
+        .rule-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .rule-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-family: 'Consolas', monospace;
+            color: var(--accent);
+            font-size: 15px;
+            overflow-x: auto;
+        }
+
+        /* Parameters Table */
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        .params-table th {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 13px;
+        }
+
+        .params-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .params-table tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Decision Flow */
+        .decision-flow {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .flow-step-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .flow-step-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: var(--accent);
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .callout-warning {
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+
+        .callout-success {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid var(--success);
+        }
+
+        .callout-info {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+
+        .callout-icon {
+            font-size: 20px;
+        }
+
+        .callout-text {
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .decision-flow {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Quant<span>2.0</span> Strategy Guide</div>
+        <div class="header-nav">
+            <a href="strategy_dashboard.html" class="nav-link"
+                style="background: rgba(160, 160, 192, 0.2); padding: 6px 14px; border-radius: 8px;">📊 Quant 1.0</a>
+            <a href="quant2_dashboard.html" class="nav-link"
+                style="background: linear-gradient(135deg, #00d4ff 0%, #7b68ee 100%); color: white; padding: 6px 14px; border-radius: 8px;">📊
+                Quant 2.0</a>
+            <a href="quant2_residual_momentum.html" class="nav-link">📈 Residual Momentum</a>
+            <a href="quant2_stat_arb.html" class="nav-link">🔄 Stat Arb</a>
+            <a href="quant2_regime.html" class="nav-link">🎯 Regime</a>
+            <a href="quant2_meta_labeling.html" class="nav-link">🤖 Meta-Label</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">Quant 2.0 Strategy Guide</h1>
+            <p class="page-subtitle">How each model works, investment decision rules, and when to use each strategy</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📚 Table of Contents</div>
+            <ul class="toc-list">
+                <li><a href="#overview">🎯 Portfolio Overview</a></li>
+                <li><a href="#residual-momentum">📈 Residual Momentum</a></li>
+                <li><a href="#stat-arb">🔄 Statistical Arbitrage</a></li>
+                <li><a href="#regime">🌡️ Regime Detection</a></li>
+                <li><a href="#meta-labeling">🤖 Meta-Labeling</a></li>
+                <li><a href="#short-vol">⚡ Short Volatility</a></li>
+                <li><a href="#nco">🎲 NCO Optimization</a></li>
+            </ul>
+        </div>
+
+        <!-- Overview -->
+        <section class="strategy-section" id="overview">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(0, 212, 255, 0.2);">🎯</div>
+                <div class="strategy-title">Portfolio Overview</div>
+            </div>
+
+            <h3>What is Quant 2.0?</h3>
+            <p>Quant 2.0 is a <strong>regime-adaptive quantitative trading system</strong> that dynamically adjusts
+                portfolio allocation based on market conditions. Unlike static portfolios, Quant 2.0 shifts between
+                strategies depending on whether markets are bullish, bearish, or choppy.</p>
+
+            <h3>Core Principles</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Factor-Neutral Alpha</div>
+                        <div class="rule-desc">Isolate true stock-picking skill by removing market, size, and value
+                            factor exposures.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Regime Awareness</div>
+                        <div class="rule-desc">Detect market regimes (Bull/Bear/Chop) and adjust allocations
+                            accordingly.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">ML-Enhanced Filtering</div>
+                        <div class="rule-desc">Use machine learning to filter discretionary signals, improving expected
+                            outcomes.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">4</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Volatility Harvesting</div>
+                        <div class="rule-desc">Capture volatility risk premium when conditions are favorable.</div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Decision Flow</h3>
+            <div class="decision-flow">
+                <div class="flow-step">
+                    <div class="flow-step-title">Detect Regime</div>
+                    <div class="flow-step-desc">HMM classifies Bull/Bear/Chop</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Set Allocation</div>
+                    <div class="flow-step-desc">Adjust strategy weights</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Generate Signals</div>
+                    <div class="flow-step-desc">Each strategy produces trades</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Filter & Execute</div>
+                    <div class="flow-step-desc">Meta-label and size positions</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Residual Momentum -->
+        <section class="strategy-section" id="residual-momentum">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(123, 104, 238, 0.2);">📈</div>
+                <div class="strategy-title">Residual Momentum</div>
+                <span class="strategy-badge"
+                    style="background: rgba(123, 104, 238, 0.2); color: #7b68ee;">Momentum</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p>Residual Momentum isolates <strong>stock-specific momentum</strong> by regressing returns against the
+                Fama-French 3-factor model. This filters out market, size, and value effects, leaving only the
+                "residual" that represents true alpha.</p>
+
+            <h3>The Formula</h3>
+            <div class="formula-box">
+                R<sub>stock</sub> = α + β<sub>1</sub>×MKT + β<sub>2</sub>×SMB + β<sub>3</sub>×HML + ε<br><br>
+                Residual Score = Σ(ε) / σ(ε) over 12-month window
+            </div>
+            <p>Where MKT = market excess return, SMB = small minus big, HML = high minus low book-to-market.</p>
+
+            <h3>Decision Rules</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Buy Signal: Score > 1.5</div>
+                        <div class="rule-desc">Long stocks with high positive residual scores (strong alpha).</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Avoid Signal: Score < -1.0</div>
+                                <div class="rule-desc">Avoid or short stocks with negative residual momentum.</div>
+                        </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Minimum R² > 0.25</div>
+                        <div class="rule-desc">Only trust residuals from regressions that explain at least 25% of
+                            variance.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">4</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Position Sizing</div>
+                        <div class="rule-desc">Size positions inversely to residual volatility (risk parity approach).
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Parameters</h3>
+            <table class="params-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Lookback</td>
+                    <td>36 months</td>
+                    <td>Regression estimation window</td>
+                </tr>
+                <tr>
+                    <td>Scoring</td>
+                    <td>12 months</td>
+                    <td>Residual momentum calculation window</td>
+                </tr>
+                <tr>
+                    <td>Min R²</td>
+                    <td>0.25</td>
+                    <td>Minimum regression quality threshold</td>
+                </tr>
+                <tr>
+                    <td>Rebalance</td>
+                    <td>Monthly</td>
+                    <td>Portfolio rebalancing frequency</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">💡</span>
+                <span class="callout-text"><strong>Why factor-neutral?</strong> Standard momentum strategies suffer from
+                    crashes when factors reverse. By removing factor exposures, we get a smoother return stream focused
+                    on stock selection.</span>
+            </div>
+        </section>
+
+        <!-- Statistical Arbitrage -->
+        <section class="strategy-section" id="stat-arb">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(0, 255, 136, 0.2);">🔄</div>
+                <div class="strategy-title">Statistical Arbitrage</div>
+                <span class="strategy-badge" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">Stat Arb</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p>Statistical Arbitrage identifies <strong>pairs of stocks that move together</strong> and trades temporary
+                divergences. When one stock becomes relatively cheap compared to its pair, we buy it and short the
+                other, profiting when they converge.</p>
+
+            <h3>The Process</h3>
+            <div class="decision-flow">
+                <div class="flow-step">
+                    <div class="flow-step-title">PCA + DBSCAN</div>
+                    <div class="flow-step-desc">Cluster similar stocks</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Kalman Filter</div>
+                    <div class="flow-step-desc">Calculate dynamic hedge ratios</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Z-Score</div>
+                    <div class="flow-step-desc">Measure spread deviation</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Trade Signal</div>
+                    <div class="flow-step-desc">Enter/exit positions</div>
+                </div>
+            </div>
+
+            <h3>Decision Rules</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Entry: |Z-Score| > 2.0</div>
+                        <div class="rule-desc">Open position when spread deviates more than 2 standard deviations.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Exit: |Z-Score| < 0.5</div>
+                                <div class="rule-desc">Close position when spread returns to near-mean.</div>
+                        </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Half-Life < 20 days</div>
+                                <div class="rule-desc">Only trade pairs that revert quickly (mean reversion speed).
+                                </div>
+                        </div>
+                </li>
+                <li>
+                    <span class="rule-number">4</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Same Cluster</div>
+                        <div class="rule-desc">Only pair stocks within the same DBSCAN cluster.</div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Parameters</h3>
+            <table class="params-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>PCA Components</td>
+                    <td>Adaptive (80% var)</td>
+                    <td>Dimensionality reduction target</td>
+                </tr>
+                <tr>
+                    <td>DBSCAN eps</td>
+                    <td>0.8</td>
+                    <td>Clustering distance threshold</td>
+                </tr>
+                <tr>
+                    <td>Entry Z</td>
+                    <td>2.0</td>
+                    <td>Standard deviations for entry</td>
+                </tr>
+                <tr>
+                    <td>Exit Z</td>
+                    <td>0.5</td>
+                    <td>Standard deviations for exit</td>
+                </tr>
+                <tr>
+                    <td>Max Half-Life</td>
+                    <td>20 days</td>
+                    <td>Maximum mean-reversion speed</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">⚠️</span>
+                <span class="callout-text"><strong>Risk:</strong> Pairs can diverge permanently if fundamentals change.
+                    Always use stop-losses and monitor for structural breaks.</span>
+            </div>
+        </section>
+
+        <!-- Regime Detection -->
+        <section class="strategy-section" id="regime">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(255, 170, 0, 0.2);">🌡️</div>
+                <div class="strategy-title">Regime Detection & Allocation</div>
+                <span class="strategy-badge" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00;">Regime</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p>Uses a <strong>Hidden Markov Model (HMM)</strong> to classify the market into three regimes: Bull, Bear,
+                or Chop. Each regime has a different allocation to strategies based on their expected performance.</p>
+
+            <h3>The Three Regimes</h3>
+            <table class="params-table">
+                <tr>
+                    <th>Regime</th>
+                    <th>Characteristics</th>
+                    <th>Best Strategies</th>
+                </tr>
+                <tr>
+                    <td style="color: #00ff88; font-weight: 600;">🟢 BULL</td>
+                    <td>High returns, low-to-moderate volatility, trending up</td>
+                    <td>Residual Momentum, Short Volatility</td>
+                </tr>
+                <tr>
+                    <td style="color: #ff4466; font-weight: 600;">🔴 BEAR</td>
+                    <td>Negative returns, high volatility, trending down</td>
+                    <td>Cash, Defensive (minimize exposure)</td>
+                </tr>
+                <tr>
+                    <td style="color: #ffaa00; font-weight: 600;">🟡 CHOP</td>
+                    <td>Low returns, moderate volatility, no clear trend</td>
+                    <td>Statistical Arbitrage, Short Volatility</td>
+                </tr>
+            </table>
+
+            <h3>Allocation Rules</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Bull Regime</div>
+                        <div class="rule-desc">40% Residual Momentum, 20% Stat Arb, 25% Short Vol, 15% Cash</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Bear Regime</div>
+                        <div class="rule-desc">5% Residual Momentum, 15% Stat Arb, 0% Short Vol, 80% Cash</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Chop Regime</div>
+                        <div class="rule-desc">15% Residual Momentum, 40% Stat Arb, 30% Short Vol, 15% Cash</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">4</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Transition Smoothing</div>
+                        <div class="rule-desc">Blend allocations based on regime probabilities (no sudden jumps).</div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>How HMM Works</h3>
+            <p>The HMM observes daily returns and volatility, inferring the hidden "state" (regime) from these
+                observations. Key features:</p>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">•</span>
+                    <div class="rule-content">
+                        <div class="rule-title">3 hidden states</div>
+                        <div class="rule-desc">Bull, Bear, Chop — each with different mean/variance of returns</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">•</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Transition matrix</div>
+                        <div class="rule-desc">Learned probabilities of switching between regimes</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">•</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Fallback</div>
+                        <div class="rule-desc">If HMM is uncertain, use simple VIX-based volatility thresholds</div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="callout callout-success">
+                <span class="callout-icon">✅</span>
+                <span class="callout-text"><strong>Why regime-based?</strong> Momentum strategies crash in Bear markets;
+                    Stat Arb thrives in Chop. By adapting allocations, we aim for smoother returns.</span>
+            </div>
+        </section>
+
+        <!-- Meta-Labeling -->
+        <section class="strategy-section" id="meta-labeling">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(0, 212, 255, 0.2);">🤖</div>
+                <div class="strategy-title">Meta-Labeling</div>
+                <span class="strategy-badge" style="background: rgba(0, 212, 255, 0.2); color: #00d4ff;">ML
+                    Filter</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p>Meta-Labeling is an <strong>ML overlay</strong> that filters primary signals. Instead of predicting
+                direction, it predicts "should we take this trade?" A Random Forest model evaluates each Quallamaggie
+                breakout signal and outputs a probability of success.</p>
+
+            <h3>The Process</h3>
+            <div class="decision-flow">
+                <div class="flow-step">
+                    <div class="flow-step-title">Primary Signal</div>
+                    <div class="flow-step-desc">Quallamaggie breakout detected</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Feature Extract</div>
+                    <div class="flow-step-desc">VIX, RVOL, ATR, momentum</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">ML Predict</div>
+                    <div class="flow-step-desc">Random Forest outputs P(win)</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Accept/Reject</div>
+                    <div class="flow-step-desc">Trade if P > threshold</div>
+                </div>
+            </div>
+
+            <h3>Triple Barrier Labeling</h3>
+            <p>Training labels are generated using the Triple Barrier Method:</p>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Profit Barrier: +5%</div>
+                        <div class="rule-desc">Trade is a WIN if price hits +5% first</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Stop Barrier: -3%</div>
+                        <div class="rule-desc">Trade is a LOSS if price hits -3% first</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Time Barrier: 10 days</div>
+                        <div class="rule-desc">Outcome determined by P&L at expiry if neither barrier hit</div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Decision Rules</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Accept: P(win) > 0.65</div>
+                        <div class="rule-desc">Only take trades with >65% predicted probability of success.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Reject Low Probability</div>
+                        <div class="rule-desc">Skip trades with P(win) < 0.65, even if primary signal is valid.</div>
+                        </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Position Size by Probability</div>
+                        <div class="rule-desc">Higher probability = larger position (Kelly-inspired sizing).</div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Top Features</h3>
+            <table class="params-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>Importance</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>VIX Percentile</td>
+                    <td>18.2%</td>
+                    <td>Current VIX relative to 252-day range</td>
+                </tr>
+                <tr>
+                    <td>RVOL</td>
+                    <td>16.1%</td>
+                    <td>Relative volume (today vs 20-day avg)</td>
+                </tr>
+                <tr>
+                    <td>21d Momentum</td>
+                    <td>13.2%</td>
+                    <td>Return over past 21 trading days</td>
+                </tr>
+                <tr>
+                    <td>ATR%</td>
+                    <td>11.8%</td>
+                    <td>Average True Range as % of price</td>
+                </tr>
+                <tr>
+                    <td>Dist from MA50</td>
+                    <td>9.8%</td>
+                    <td>Distance from 50-day moving average</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">💡</span>
+                <span class="callout-text"><strong>Why meta-labeling?</strong> It's easier to filter bad trades than to
+                    predict direction. By rejecting ~50% of signals, we improve overall win rate.</span>
+            </div>
+        </section>
+
+        <!-- Short Volatility -->
+        <section class="strategy-section" id="short-vol">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(255, 68, 102, 0.2);">⚡</div>
+                <div class="strategy-title">Short Volatility (VRP)</div>
+                <span class="strategy-badge"
+                    style="background: rgba(255, 68, 102, 0.2); color: #ff4466;">Volatility</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p>Harvests the <strong>Volatility Risk Premium (VRP)</strong> — the tendency for implied volatility (VIX)
+                to exceed realized volatility. When VIX is low, we "sell volatility" by shorting VIX-related
+                instruments.</p>
+
+            <h3>Decision Rules</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">HARVEST: VIX Percentile < 30%</div>
+                                <div class="rule-desc">When VIX is low historically, sell volatility (e.g., short VXX,
+                                    sell put spreads).</div>
+                        </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">NEUTRAL: VIX Percentile 30-70%</div>
+                        <div class="rule-desc">Reduce position or hold. Neither strong signal.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">PROTECT: VIX Percentile > 70%</div>
+                        <div class="rule-desc">High VIX = high risk. Exit short vol positions, consider tail hedges.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">4</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Term Structure Check</div>
+                        <div class="rule-desc">Only short vol when in contango (VIX futures > VIX spot).</div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">⚠️</span>
+                <span class="callout-text"><strong>Tail Risk:</strong> Short vol strategies can have catastrophic losses
+                    in market crashes. Always size conservatively and use tail hedges.</span>
+            </div>
+        </section>
+
+        <!-- NCO Optimization -->
+        <section class="strategy-section" id="nco">
+            <div class="strategy-header">
+                <div class="strategy-icon" style="background: rgba(0, 255, 136, 0.2);">🎲</div>
+                <div class="strategy-title">NCO Optimization</div>
+                <span class="strategy-badge"
+                    style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">Optimizer</span>
+            </div>
+
+            <h3>What It Does</h3>
+            <p><strong>Nested Clustered Optimization (NCO)</strong> is an advanced portfolio optimization technique that
+                addresses the weaknesses of traditional mean-variance optimization. It clusters assets, optimizes within
+                clusters, then optimizes across clusters.</p>
+
+            <h3>Why NCO over Mean-Variance?</h3>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Reduces Estimation Error</div>
+                        <div class="rule-desc">Mean-variance is notorious for concentrating in assets with estimation
+                            errors. NCO diversifies this risk.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <div class="rule-content">
+                        <div class="rule-title">Hierarchical Structure</div>
+                        <div class="rule-desc">Assets are grouped by similarity; allocations respect this structure.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <div class="rule-content">
+                        <div class="rule-title">More Robust</div>
+                        <div class="rule-desc">Out-of-sample performance is typically better than standard optimization.
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>The Process</h3>
+            <div class="decision-flow">
+                <div class="flow-step">
+                    <div class="flow-step-title">Cluster Assets</div>
+                    <div class="flow-step-desc">Hierarchical clustering on correlation</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Intra-Cluster Opt</div>
+                    <div class="flow-step-desc">Optimize within each cluster</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Inter-Cluster Opt</div>
+                    <div class="flow-step-desc">Optimize across clusters</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-title">Final Weights</div>
+                    <div class="flow-step-desc">Combined portfolio weights</div>
+                </div>
+            </div>
+
+            <h3>Output Metrics</h3>
+            <table class="params-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Effective N</td>
+                    <td>Diversification measure (higher = more diversified)</td>
+                </tr>
+                <tr>
+                    <td>Max Weight</td>
+                    <td>Largest single position (constrained to 20%)</td>
+                </tr>
+                <tr>
+                    <td>Expected Return</td>
+                    <td>Portfolio expected return based on inputs</td>
+                </tr>
+                <tr>
+                    <td>Expected Vol</td>
+                    <td>Portfolio expected volatility</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-success">
+                <span class="callout-icon">✅</span>
+                <span class="callout-text"><strong>Powered by Riskfolio-Lib:</strong> We use the excellent open-source
+                    Riskfolio-Lib Python library for NCO.</span>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>

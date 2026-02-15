@@ -1,0 +1,26 @@
+{
+  "generated_at": "2025-12-26T13:17:26.446323",
+  "strategies": {
+    "regime": {
+      "error": "Cannot set a DataFrame with multiple columns to the single column return"
+    },
+    "stat_arb": {
+      "error": "name 'KalmanFilter' is not defined"
+    },
+    "vrp": {
+      "error": "unsupported format string passed to Series.__format__"
+    },
+    "meta_labeling": {
+      "status": "ready",
+      "model_trained": false,
+      "description": "Run scanner first to generate signals for filtering"
+    },
+    "residual_momentum": {
+      "error": "pandas-datareader is required for fetching Fama-French data. Install with: pip install pandas-datareader"
+    },
+    "nco": {
+      "status": "ready",
+      "description": "NCO runs after all signals generated"
+    }
+  }
+}

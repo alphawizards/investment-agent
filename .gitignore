@@ -1,0 +1,77 @@
+# Dependencies
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+
+# Data files
+*.csv
+*.parquet
+*.pkl
+*.h5
+data/cache/
+cache/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment & Secrets (CRITICAL - never commit!)
+.env
+.env.*
+.env.local
+!.env.example
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+test-results/
+
+# Lambda packages (generated)
+infrastructure/lambda-packages/*.zip
+
+# Local database
+*.db
+*.sqlite
+*.sqlite3

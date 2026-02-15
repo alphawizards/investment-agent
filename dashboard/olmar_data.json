@@ -1,0 +1,3770 @@
+{
+  "generated_at": "2025-12-25T20:56:42.356049",
+  "data_start": "2024-12-30",
+  "data_end": "2025-12-24",
+  "universe_size": 46,
+  "strategies": {
+    "weekly": {
+      "name": "OLMAR Weekly",
+      "rebalance_freq": "Weekly",
+      "metrics": {
+        "total_return": 55.62,
+        "cagr": 57.02,
+        "volatility": 36.24,
+        "sharpe": 1.314,
+        "max_drawdown": -21.95
+      },
+      "turnover_stats": {
+        "mean_daily_turnover": 10.34,
+        "median_daily_turnover": 0.0,
+        "max_daily_turnover": 50.0,
+        "total_turnover": 2543.75,
+        "annualized_turnover": 2605.79,
+        "rebalance_days": 51
+      }
+    },
+    "monthly": {
+      "name": "OLMAR Monthly",
+      "rebalance_freq": "Monthly",
+      "metrics": {
+        "total_return": 44.76,
+        "cagr": 45.84,
+        "volatility": 38.26,
+        "sharpe": 1.071,
+        "max_drawdown": -23.16
+      },
+      "turnover_stats": {
+        "mean_daily_turnover": 2.43,
+        "median_daily_turnover": 0.0,
+        "max_daily_turnover": 50.0,
+        "total_turnover": 596.8,
+        "annualized_turnover": 611.36,
+        "rebalance_days": 12
+      }
+    }
+  },
+  "current_holdings": {
+    "weekly": [
+      {
+        "ticker": "CMCSA",
+        "weight": 56.16
+      },
+      {
+        "ticker": "AVGO",
+        "weight": 23.37
+      },
+      {
+        "ticker": "NFLX",
+        "weight": 11.99
+      },
+      {
+        "ticker": "TLT",
+        "weight": 5.76
+      },
+      {
+        "ticker": "INTC",
+        "weight": 1.3
+      }
+    ],
+    "monthly": [
+      {
+        "ticker": "TLT",
+        "weight": 50.0
+      },
+      {
+        "ticker": "META",
+        "weight": 26.21
+      },
+      {
+        "ticker": "ADBE",
+        "weight": 11.6
+      },
+      {
+        "ticker": "LRCX",
+        "weight": 6.1
+      },
+      {
+        "ticker": "AMZN",
+        "weight": 3.05
+      },
+      {
+        "ticker": "TSLA",
+        "weight": 3.05
+      }
+    ]
+  },
+  "weekly_selections": [
+    {
+      "date": "2025-01-05",
+      "week_name": "Week of Dec 30, 2024",
+      "month_name": "January 2025",
+      "stocks": [
+        {
+          "ticker": "DBC",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "QQQ",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "SPY",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "VEA",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        },
+        {
+          "ticker": "VNQ",
+          "weight": 2.17,
+          "weight_pct": "2.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-12",
+      "week_name": "Week of Jan 06, 2025",
+      "month_name": "January 2025",
+      "stocks": [
+        {
+          "ticker": "TMUS",
+          "weight": 52.17,
+          "weight_pct": "52.2%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "QQQ",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "SPY",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        },
+        {
+          "ticker": "VEA",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-19",
+      "week_name": "Week of Jan 13, 2025",
+      "month_name": "January 2025",
+      "stocks": [
+        {
+          "ticker": "NVDA",
+          "weight": 51.06,
+          "weight_pct": "51.1%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 25.81,
+          "weight_pct": "25.8%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "QQQ",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "SPY",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-26",
+      "week_name": "Week of Jan 20, 2025",
+      "month_name": "January 2025",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "weight": 50.53,
+          "weight_pct": "50.5%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 25.4,
+          "weight_pct": "25.4%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 12.84,
+          "weight_pct": "12.8%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "QQQ",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "SPY",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-02",
+      "week_name": "Week of Jan 27, 2025",
+      "month_name": "February 2025",
+      "stocks": [
+        {
+          "ticker": "NVDA",
+          "weight": 75.4,
+          "weight_pct": "75.4%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 16.66,
+          "weight_pct": "16.7%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 4.23,
+          "weight_pct": "4.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-09",
+      "week_name": "Week of Feb 03, 2025",
+      "month_name": "February 2025",
+      "stocks": [
+        {
+          "ticker": "CMCSA",
+          "weight": 50.09,
+          "weight_pct": "50.1%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 37.67,
+          "weight_pct": "37.7%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 8.32,
+          "weight_pct": "8.3%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 2.11,
+          "weight_pct": "2.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-16",
+      "week_name": "Week of Feb 10, 2025",
+      "month_name": "February 2025",
+      "stocks": [
+        {
+          "ticker": "TSLA",
+          "weight": 50.04,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 25.03,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 18.82,
+          "weight_pct": "18.8%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 4.16,
+          "weight_pct": "4.2%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 1.06,
+          "weight_pct": "1.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-02-23",
+      "week_name": "Week of Feb 17, 2025",
+      "month_name": "February 2025",
+      "stocks": [
+        {
+          "ticker": "AMAT",
+          "weight": 50.02,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 25.02,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 12.51,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 9.41,
+          "weight_pct": "9.4%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 2.08,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 0.53,
+          "weight_pct": "0.5%"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-02",
+      "week_name": "Week of Feb 24, 2025",
+      "month_name": "March 2025",
+      "stocks": [
+        {
+          "ticker": "AVGO",
+          "weight": 50.01,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 25.01,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 12.51,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 6.26,
+          "weight_pct": "6.3%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 4.7,
+          "weight_pct": "4.7%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 1.04,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-09",
+      "week_name": "Week of Mar 03, 2025",
+      "month_name": "March 2025",
+      "stocks": [
+        {
+          "ticker": "NVDA",
+          "weight": 54.7,
+          "weight_pct": "54.7%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 23.77,
+          "weight_pct": "23.8%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 11.89,
+          "weight_pct": "11.9%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 5.94,
+          "weight_pct": "5.9%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 2.97,
+          "weight_pct": "3.0%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.49,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-16",
+      "week_name": "Week of Mar 10, 2025",
+      "month_name": "March 2025",
+      "stocks": [
+        {
+          "ticker": "TSLA",
+          "weight": 55.94,
+          "weight_pct": "55.9%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 25.62,
+          "weight_pct": "25.6%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 11.13,
+          "weight_pct": "11.1%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 5.57,
+          "weight_pct": "5.6%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 1.39,
+          "weight_pct": "1.4%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.23,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-23",
+      "week_name": "Week of Mar 17, 2025",
+      "month_name": "March 2025",
+      "stocks": [
+        {
+          "ticker": "ADBE",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 27.97,
+          "weight_pct": "28.0%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 12.81,
+          "weight_pct": "12.8%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 5.57,
+          "weight_pct": "5.6%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 2.78,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 0.7,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.12,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-30",
+      "week_name": "Week of Mar 24, 2025",
+      "month_name": "March 2025",
+      "stocks": [
+        {
+          "ticker": "SBUX",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 13.99,
+          "weight_pct": "14.0%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 6.41,
+          "weight_pct": "6.4%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 2.78,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 1.39,
+          "weight_pct": "1.4%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 0.35,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-04-06",
+      "week_name": "Week of Mar 31, 2025",
+      "month_name": "April 2025",
+      "stocks": [
+        {
+          "ticker": "AVGO",
+          "weight": 52.13,
+          "weight_pct": "52.1%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 24.28,
+          "weight_pct": "24.3%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 12.14,
+          "weight_pct": "12.1%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 6.79,
+          "weight_pct": "6.8%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 3.11,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.68,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 0.66,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 0.17,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-04-13",
+      "week_name": "Week of Apr 07, 2025",
+      "month_name": "April 2025",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "weight": 37.47,
+          "weight_pct": "37.5%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 24.81,
+          "weight_pct": "24.8%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 13.61,
+          "weight_pct": "13.6%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 13.22,
+          "weight_pct": "13.2%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 5.78,
+          "weight_pct": "5.8%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 3.23,
+          "weight_pct": "3.2%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 1.48,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.32,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-04-20",
+      "week_name": "Week of Apr 14, 2025",
+      "month_name": "April 2025",
+      "stocks": [
+        {
+          "ticker": "TLT",
+          "weight": 41.44,
+          "weight_pct": "41.4%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 18.73,
+          "weight_pct": "18.7%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 12.4,
+          "weight_pct": "12.4%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 8.56,
+          "weight_pct": "8.6%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 6.8,
+          "weight_pct": "6.8%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 6.61,
+          "weight_pct": "6.6%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 2.89,
+          "weight_pct": "2.9%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 1.62,
+          "weight_pct": "1.6%"
+        }
+      ]
+    },
+    {
+      "date": "2025-04-27",
+      "week_name": "Week of Apr 21, 2025",
+      "month_name": "April 2025",
+      "stocks": [
+        {
+          "ticker": "NVDA",
+          "weight": 50.74,
+          "weight_pct": "50.7%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 20.57,
+          "weight_pct": "20.6%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 9.3,
+          "weight_pct": "9.3%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 6.16,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 4.25,
+          "weight_pct": "4.2%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 3.38,
+          "weight_pct": "3.4%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 3.28,
+          "weight_pct": "3.3%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 1.43,
+          "weight_pct": "1.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-04",
+      "week_name": "Week of Apr 28, 2025",
+      "month_name": "May 2025",
+      "stocks": [
+        {
+          "ticker": "TMUS",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 25.37,
+          "weight_pct": "25.4%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 10.28,
+          "weight_pct": "10.3%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 4.65,
+          "weight_pct": "4.6%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 3.08,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 2.12,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 1.69,
+          "weight_pct": "1.7%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 1.64,
+          "weight_pct": "1.6%"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-11",
+      "week_name": "Week of May 05, 2025",
+      "month_name": "May 2025",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "weight": 54.65,
+          "weight_pct": "54.6%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 23.78,
+          "weight_pct": "23.8%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 12.07,
+          "weight_pct": "12.1%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 4.89,
+          "weight_pct": "4.9%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 1.46,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 1.01,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 0.8,
+          "weight_pct": "0.8%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 0.78,
+          "weight_pct": "0.8%"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-18",
+      "week_name": "Week of May 12, 2025",
+      "month_name": "May 2025",
+      "stocks": [
+        {
+          "ticker": "TMUS",
+          "weight": 62.39,
+          "weight_pct": "62.4%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 18.8,
+          "weight_pct": "18.8%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 11.4,
+          "weight_pct": "11.4%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 4.15,
+          "weight_pct": "4.2%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 1.68,
+          "weight_pct": "1.7%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 0.5,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 0.35,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 0.28,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-05-25",
+      "week_name": "Week of May 19, 2025",
+      "month_name": "May 2025",
+      "stocks": [
+        {
+          "ticker": "AMAT",
+          "weight": 50.01,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 31.19,
+          "weight_pct": "31.2%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 9.4,
+          "weight_pct": "9.4%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 5.7,
+          "weight_pct": "5.7%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 2.08,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 0.84,
+          "weight_pct": "0.8%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 0.25,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "IEF",
+          "weight": 0.17,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-01",
+      "week_name": "Week of May 26, 2025",
+      "month_name": "June 2025",
+      "stocks": [
+        {
+          "ticker": "DBC",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 15.6,
+          "weight_pct": "15.6%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 4.7,
+          "weight_pct": "4.7%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 2.85,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 1.04,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 0.42,
+          "weight_pct": "0.4%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-08",
+      "week_name": "Week of Jun 02, 2025",
+      "month_name": "June 2025",
+      "stocks": [
+        {
+          "ticker": "TSLA",
+          "weight": 50.02,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 7.8,
+          "weight_pct": "7.8%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 2.35,
+          "weight_pct": "2.3%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 1.42,
+          "weight_pct": "1.4%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 0.21,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-15",
+      "week_name": "Week of Jun 09, 2025",
+      "month_name": "June 2025",
+      "stocks": [
+        {
+          "ticker": "ISRG",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 25.01,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 3.9,
+          "weight_pct": "3.9%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 1.17,
+          "weight_pct": "1.2%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 0.71,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "NVDA",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-22",
+      "week_name": "Week of Jun 16, 2025",
+      "month_name": "June 2025",
+      "stocks": [
+        {
+          "ticker": "ADBE",
+          "weight": 50.01,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 1.95,
+          "weight_pct": "1.9%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.59,
+          "weight_pct": "0.6%"
+        },
+        {
+          "ticker": "GLD",
+          "weight": 0.36,
+          "weight_pct": "0.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-06-29",
+      "week_name": "Week of Jun 23, 2025",
+      "month_name": "June 2025",
+      "stocks": [
+        {
+          "ticker": "AMGN",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 6.25,
+          "weight_pct": "6.3%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 1.56,
+          "weight_pct": "1.6%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 0.97,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.29,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-06",
+      "week_name": "Week of Jun 30, 2025",
+      "month_name": "July 2025",
+      "stocks": [
+        {
+          "ticker": "TSLA",
+          "weight": 56.25,
+          "weight_pct": "56.3%"
+        },
+        {
+          "ticker": "AMGN",
+          "weight": 23.33,
+          "weight_pct": "23.3%"
+        },
+        {
+          "ticker": "ADBE",
+          "weight": 11.67,
+          "weight_pct": "11.7%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 5.83,
+          "weight_pct": "5.8%"
+        },
+        {
+          "ticker": "DBC",
+          "weight": 1.46,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.73,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "TMUS",
+          "weight": 0.45,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "AAPL",
+          "weight": 0.14,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-13",
+      "week_name": "Week of Jul 07, 2025",
+      "month_name": "July 2025",
+      "stocks": [
+        {
+          "ticker": "TSLA",
+          "weight": 100.0,
+          "weight_pct": "100.0%"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-20",
+      "week_name": "Week of Jul 14, 2025",
+      "month_name": "July 2025",
+      "stocks": [
+        {
+          "ticker": "QCOM",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        }
+      ]
+    },
+    {
+      "date": "2025-07-27",
+      "week_name": "Week of Jul 21, 2025",
+      "month_name": "July 2025",
+      "stocks": [
+        {
+          "ticker": "NFLX",
+          "weight": 44.28,
+          "weight_pct": "44.3%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 5.72,
+          "weight_pct": "5.7%"
+        }
+      ]
+    },
+    {
+      "date": "2025-08-03",
+      "week_name": "Week of Jul 28, 2025",
+      "month_name": "August 2025",
+      "stocks": [
+        {
+          "ticker": "INTC",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 22.14,
+          "weight_pct": "22.1%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 2.86,
+          "weight_pct": "2.9%"
+        }
+      ]
+    },
+    {
+      "date": "2025-08-10",
+      "week_name": "Week of Aug 04, 2025",
+      "month_name": "August 2025",
+      "stocks": [
+        {
+          "ticker": "AMZN",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 11.07,
+          "weight_pct": "11.1%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 1.43,
+          "weight_pct": "1.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-08-17",
+      "week_name": "Week of Aug 11, 2025",
+      "month_name": "August 2025",
+      "stocks": [
+        {
+          "ticker": "INTU",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 5.53,
+          "weight_pct": "5.5%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 0.72,
+          "weight_pct": "0.7%"
+        }
+      ]
+    },
+    {
+      "date": "2025-08-24",
+      "week_name": "Week of Aug 18, 2025",
+      "month_name": "August 2025",
+      "stocks": [
+        {
+          "ticker": "AMAT",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 2.77,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 1.56,
+          "weight_pct": "1.6%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 1.56,
+          "weight_pct": "1.6%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 0.36,
+          "weight_pct": "0.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-08-31",
+      "week_name": "Week of Aug 25, 2025",
+      "month_name": "August 2025",
+      "stocks": [
+        {
+          "ticker": "INTU",
+          "weight": 75.0,
+          "weight_pct": "75.0%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 16.67,
+          "weight_pct": "16.7%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 4.17,
+          "weight_pct": "4.2%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 2.08,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 0.92,
+          "weight_pct": "0.9%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "VRTX",
+          "weight": 0.12,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-07",
+      "week_name": "Week of Sep 01, 2025",
+      "month_name": "September 2025",
+      "stocks": [
+        {
+          "ticker": "LRCX",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 37.5,
+          "weight_pct": "37.5%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 8.33,
+          "weight_pct": "8.3%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 2.08,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 1.04,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 0.46,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "TSLA",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-14",
+      "week_name": "Week of Sep 08, 2025",
+      "month_name": "September 2025",
+      "stocks": [
+        {
+          "ticker": "AMD",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 18.75,
+          "weight_pct": "18.8%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 4.17,
+          "weight_pct": "4.2%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 1.04,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 0.23,
+          "weight_pct": "0.2%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-21",
+      "week_name": "Week of Sep 15, 2025",
+      "month_name": "September 2025",
+      "stocks": [
+        {
+          "ticker": "ISRG",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 9.38,
+          "weight_pct": "9.4%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 2.08,
+          "weight_pct": "2.1%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 0.12,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-28",
+      "week_name": "Week of Sep 22, 2025",
+      "month_name": "September 2025",
+      "stocks": [
+        {
+          "ticker": "AVGO",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 4.69,
+          "weight_pct": "4.7%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 1.04,
+          "weight_pct": "1.0%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-05",
+      "week_name": "Week of Sep 29, 2025",
+      "month_name": "October 2025",
+      "stocks": [
+        {
+          "ticker": "QCOM",
+          "weight": 50.03,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 24.99,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 2.34,
+          "weight_pct": "2.3%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.52,
+          "weight_pct": "0.5%"
+        },
+        {
+          "ticker": "AMZN",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-12",
+      "week_name": "Week of Oct 06, 2025",
+      "month_name": "October 2025",
+      "stocks": [
+        {
+          "ticker": "SBUX",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 25.02,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 6.25,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 3.12,
+          "weight_pct": "3.1%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 1.56,
+          "weight_pct": "1.6%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 1.17,
+          "weight_pct": "1.2%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.26,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-19",
+      "week_name": "Week of Oct 13, 2025",
+      "month_name": "October 2025",
+      "stocks": [
+        {
+          "ticker": "AMD",
+          "weight": 53.12,
+          "weight_pct": "53.1%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 24.19,
+          "weight_pct": "24.2%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 12.1,
+          "weight_pct": "12.1%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 6.05,
+          "weight_pct": "6.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 3.02,
+          "weight_pct": "3.0%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 0.76,
+          "weight_pct": "0.8%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 0.57,
+          "weight_pct": "0.6%"
+        },
+        {
+          "ticker": "AMAT",
+          "weight": 0.13,
+          "weight_pct": "0.1%"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-26",
+      "week_name": "Week of Oct 20, 2025",
+      "month_name": "October 2025",
+      "stocks": [
+        {
+          "ticker": "COST",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 26.56,
+          "weight_pct": "26.6%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 12.1,
+          "weight_pct": "12.1%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 6.05,
+          "weight_pct": "6.1%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 3.02,
+          "weight_pct": "3.0%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 1.51,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 0.38,
+          "weight_pct": "0.4%"
+        },
+        {
+          "ticker": "INTU",
+          "weight": 0.28,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-02",
+      "week_name": "Week of Oct 27, 2025",
+      "month_name": "November 2025",
+      "stocks": [
+        {
+          "ticker": "NFLX",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 13.28,
+          "weight_pct": "13.3%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 6.05,
+          "weight_pct": "6.0%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 3.03,
+          "weight_pct": "3.0%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 1.51,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 0.76,
+          "weight_pct": "0.8%"
+        },
+        {
+          "ticker": "LRCX",
+          "weight": 0.19,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-09",
+      "week_name": "Week of Nov 03, 2025",
+      "month_name": "November 2025",
+      "stocks": [
+        {
+          "ticker": "META",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 12.5,
+          "weight_pct": "12.5%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 6.64,
+          "weight_pct": "6.6%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 3.02,
+          "weight_pct": "3.0%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 1.51,
+          "weight_pct": "1.5%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 0.76,
+          "weight_pct": "0.8%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 0.38,
+          "weight_pct": "0.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-16",
+      "week_name": "Week of Nov 10, 2025",
+      "month_name": "November 2025",
+      "stocks": [
+        {
+          "ticker": "COST",
+          "weight": 62.5,
+          "weight_pct": "62.5%"
+        },
+        {
+          "ticker": "META",
+          "weight": 21.43,
+          "weight_pct": "21.4%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 10.72,
+          "weight_pct": "10.7%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 2.85,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 1.3,
+          "weight_pct": "1.3%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 0.65,
+          "weight_pct": "0.6%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 0.32,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "ISRG",
+          "weight": 0.16,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-23",
+      "week_name": "Week of Nov 17, 2025",
+      "month_name": "November 2025",
+      "stocks": [
+        {
+          "ticker": "INTC",
+          "weight": 45.16,
+          "weight_pct": "45.2%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 31.25,
+          "weight_pct": "31.2%"
+        },
+        {
+          "ticker": "META",
+          "weight": 10.71,
+          "weight_pct": "10.7%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 5.36,
+          "weight_pct": "5.4%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 4.84,
+          "weight_pct": "4.8%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 1.42,
+          "weight_pct": "1.4%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 0.65,
+          "weight_pct": "0.6%"
+        },
+        {
+          "ticker": "QCOM",
+          "weight": 0.32,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-30",
+      "week_name": "Week of Nov 24, 2025",
+      "month_name": "November 2025",
+      "stocks": [
+        {
+          "ticker": "CMCSA",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 22.58,
+          "weight_pct": "22.6%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 15.62,
+          "weight_pct": "15.6%"
+        },
+        {
+          "ticker": "META",
+          "weight": 5.36,
+          "weight_pct": "5.4%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 2.68,
+          "weight_pct": "2.7%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 2.42,
+          "weight_pct": "2.4%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 0.71,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "SBUX",
+          "weight": 0.32,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-07",
+      "week_name": "Week of Dec 01, 2025",
+      "month_name": "December 2025",
+      "stocks": [
+        {
+          "ticker": "TLT",
+          "weight": 50.0,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 25.0,
+          "weight_pct": "25.0%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 11.29,
+          "weight_pct": "11.3%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 7.81,
+          "weight_pct": "7.8%"
+        },
+        {
+          "ticker": "META",
+          "weight": 2.68,
+          "weight_pct": "2.7%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 1.34,
+          "weight_pct": "1.3%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 1.21,
+          "weight_pct": "1.2%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 0.36,
+          "weight_pct": "0.4%"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-14",
+      "week_name": "Week of Dec 08, 2025",
+      "month_name": "December 2025",
+      "stocks": [
+        {
+          "ticker": "NFLX",
+          "weight": 51.34,
+          "weight_pct": "51.3%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 24.66,
+          "weight_pct": "24.7%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 12.33,
+          "weight_pct": "12.3%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 5.57,
+          "weight_pct": "5.6%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 3.85,
+          "weight_pct": "3.9%"
+        },
+        {
+          "ticker": "META",
+          "weight": 1.32,
+          "weight_pct": "1.3%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 0.6,
+          "weight_pct": "0.6%"
+        },
+        {
+          "ticker": "AMD",
+          "weight": 0.18,
+          "weight_pct": "0.2%"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-21",
+      "week_name": "Week of Dec 15, 2025",
+      "month_name": "December 2025",
+      "stocks": [
+        {
+          "ticker": "AVGO",
+          "weight": 50.02,
+          "weight_pct": "50.0%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 25.66,
+          "weight_pct": "25.7%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 12.33,
+          "weight_pct": "12.3%"
+        },
+        {
+          "ticker": "CMCSA",
+          "weight": 6.16,
+          "weight_pct": "6.2%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 2.78,
+          "weight_pct": "2.8%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 1.93,
+          "weight_pct": "1.9%"
+        },
+        {
+          "ticker": "META",
+          "weight": 0.66,
+          "weight_pct": "0.7%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 0.3,
+          "weight_pct": "0.3%"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-28",
+      "week_name": "Week of Dec 22, 2025",
+      "month_name": "December 2025",
+      "stocks": [
+        {
+          "ticker": "CMCSA",
+          "weight": 56.16,
+          "weight_pct": "56.2%"
+        },
+        {
+          "ticker": "AVGO",
+          "weight": 23.37,
+          "weight_pct": "23.4%"
+        },
+        {
+          "ticker": "NFLX",
+          "weight": 11.99,
+          "weight_pct": "12.0%"
+        },
+        {
+          "ticker": "TLT",
+          "weight": 5.76,
+          "weight_pct": "5.8%"
+        },
+        {
+          "ticker": "INTC",
+          "weight": 1.3,
+          "weight_pct": "1.3%"
+        },
+        {
+          "ticker": "COST",
+          "weight": 0.9,
+          "weight_pct": "0.9%"
+        },
+        {
+          "ticker": "META",
+          "weight": 0.31,
+          "weight_pct": "0.3%"
+        },
+        {
+          "ticker": "BKNG",
+          "weight": 0.14,
+          "weight_pct": "0.1%"
+        }
+      ]
+    }
+  ],
+  "monthly_selections": {
+    "weekly": [
+      {
+        "date": "2024-12",
+        "month_name": "December 2024",
+        "stocks": [
+          {
+            "ticker": "DBC",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VEA",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VNQ",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VWO",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-01",
+        "month_name": "January 2025",
+        "stocks": [
+          {
+            "ticker": "NVDA",
+            "weight": 75.4,
+            "weight_pct": "75.4%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 16.66,
+            "weight_pct": "16.7%"
+          },
+          {
+            "ticker": "TMUS",
+            "weight": 4.23,
+            "weight_pct": "4.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-02",
+        "month_name": "February 2025",
+        "stocks": [
+          {
+            "ticker": "AVGO",
+            "weight": 50.01,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 25.01,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 12.51,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 6.26,
+            "weight_pct": "6.3%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 4.7,
+            "weight_pct": "4.7%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 1.04,
+            "weight_pct": "1.0%"
+          },
+          {
+            "ticker": "TMUS",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          }
+        ]
+      },
+      {
+        "date": "2025-03",
+        "month_name": "March 2025",
+        "stocks": [
+          {
+            "ticker": "AVGO",
+            "weight": 52.13,
+            "weight_pct": "52.1%"
+          },
+          {
+            "ticker": "SBUX",
+            "weight": 24.28,
+            "weight_pct": "24.3%"
+          },
+          {
+            "ticker": "ADBE",
+            "weight": 12.14,
+            "weight_pct": "12.1%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 6.79,
+            "weight_pct": "6.8%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 3.11,
+            "weight_pct": "3.1%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 0.68,
+            "weight_pct": "0.7%"
+          },
+          {
+            "ticker": "AMD",
+            "weight": 0.66,
+            "weight_pct": "0.7%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 0.17,
+            "weight_pct": "0.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-04",
+        "month_name": "April 2025",
+        "stocks": [
+          {
+            "ticker": "TMUS",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 25.37,
+            "weight_pct": "25.4%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 10.28,
+            "weight_pct": "10.3%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 4.65,
+            "weight_pct": "4.6%"
+          },
+          {
+            "ticker": "AVGO",
+            "weight": 3.08,
+            "weight_pct": "3.1%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 2.12,
+            "weight_pct": "2.1%"
+          },
+          {
+            "ticker": "SBUX",
+            "weight": 1.69,
+            "weight_pct": "1.7%"
+          },
+          {
+            "ticker": "AMD",
+            "weight": 1.64,
+            "weight_pct": "1.6%"
+          },
+          {
+            "ticker": "ADBE",
+            "weight": 0.72,
+            "weight_pct": "0.7%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 0.4,
+            "weight_pct": "0.4%"
+          }
+        ]
+      },
+      {
+        "date": "2025-05",
+        "month_name": "May 2025",
+        "stocks": [
+          {
+            "ticker": "DBC",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 25.0,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "TMUS",
+            "weight": 15.6,
+            "weight_pct": "15.6%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 4.7,
+            "weight_pct": "4.7%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 2.85,
+            "weight_pct": "2.8%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 1.04,
+            "weight_pct": "1.0%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 0.42,
+            "weight_pct": "0.4%"
+          },
+          {
+            "ticker": "AVGO",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-06",
+        "month_name": "June 2025",
+        "stocks": [
+          {
+            "ticker": "TSLA",
+            "weight": 56.25,
+            "weight_pct": "56.3%"
+          },
+          {
+            "ticker": "AMGN",
+            "weight": 23.33,
+            "weight_pct": "23.3%"
+          },
+          {
+            "ticker": "ADBE",
+            "weight": 11.67,
+            "weight_pct": "11.7%"
+          },
+          {
+            "ticker": "ISRG",
+            "weight": 5.83,
+            "weight_pct": "5.8%"
+          },
+          {
+            "ticker": "DBC",
+            "weight": 1.46,
+            "weight_pct": "1.5%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 0.73,
+            "weight_pct": "0.7%"
+          },
+          {
+            "ticker": "TMUS",
+            "weight": 0.45,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 0.14,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-07",
+        "month_name": "July 2025",
+        "stocks": [
+          {
+            "ticker": "INTC",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "NFLX",
+            "weight": 22.14,
+            "weight_pct": "22.1%"
+          },
+          {
+            "ticker": "QCOM",
+            "weight": 12.5,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 12.5,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "VRTX",
+            "weight": 2.86,
+            "weight_pct": "2.9%"
+          }
+        ]
+      },
+      {
+        "date": "2025-08",
+        "month_name": "August 2025",
+        "stocks": [
+          {
+            "ticker": "INTU",
+            "weight": 75.0,
+            "weight_pct": "75.0%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 16.67,
+            "weight_pct": "16.7%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 4.17,
+            "weight_pct": "4.2%"
+          },
+          {
+            "ticker": "INTC",
+            "weight": 2.08,
+            "weight_pct": "2.1%"
+          },
+          {
+            "ticker": "NFLX",
+            "weight": 0.92,
+            "weight_pct": "0.9%"
+          },
+          {
+            "ticker": "QCOM",
+            "weight": 0.52,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 0.52,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "VRTX",
+            "weight": 0.12,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-09",
+        "month_name": "September 2025",
+        "stocks": [
+          {
+            "ticker": "QCOM",
+            "weight": 50.03,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "AVGO",
+            "weight": 24.99,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "ISRG",
+            "weight": 12.5,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "AMD",
+            "weight": 6.25,
+            "weight_pct": "6.2%"
+          },
+          {
+            "ticker": "LRCX",
+            "weight": 3.12,
+            "weight_pct": "3.1%"
+          },
+          {
+            "ticker": "INTU",
+            "weight": 2.34,
+            "weight_pct": "2.3%"
+          },
+          {
+            "ticker": "AMAT",
+            "weight": 0.52,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-10",
+        "month_name": "October 2025",
+        "stocks": [
+          {
+            "ticker": "NFLX",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "COST",
+            "weight": 25.0,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "AMD",
+            "weight": 13.28,
+            "weight_pct": "13.3%"
+          },
+          {
+            "ticker": "SBUX",
+            "weight": 6.05,
+            "weight_pct": "6.0%"
+          },
+          {
+            "ticker": "QCOM",
+            "weight": 3.03,
+            "weight_pct": "3.0%"
+          },
+          {
+            "ticker": "AVGO",
+            "weight": 1.51,
+            "weight_pct": "1.5%"
+          },
+          {
+            "ticker": "ISRG",
+            "weight": 0.76,
+            "weight_pct": "0.8%"
+          },
+          {
+            "ticker": "LRCX",
+            "weight": 0.19,
+            "weight_pct": "0.2%"
+          },
+          {
+            "ticker": "INTU",
+            "weight": 0.14,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-11",
+        "month_name": "November 2025",
+        "stocks": [
+          {
+            "ticker": "CMCSA",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "INTC",
+            "weight": 22.58,
+            "weight_pct": "22.6%"
+          },
+          {
+            "ticker": "COST",
+            "weight": 15.62,
+            "weight_pct": "15.6%"
+          },
+          {
+            "ticker": "META",
+            "weight": 5.36,
+            "weight_pct": "5.4%"
+          },
+          {
+            "ticker": "NFLX",
+            "weight": 2.68,
+            "weight_pct": "2.7%"
+          },
+          {
+            "ticker": "BKNG",
+            "weight": 2.42,
+            "weight_pct": "2.4%"
+          },
+          {
+            "ticker": "AMD",
+            "weight": 0.71,
+            "weight_pct": "0.7%"
+          },
+          {
+            "ticker": "SBUX",
+            "weight": 0.32,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "QCOM",
+            "weight": 0.16,
+            "weight_pct": "0.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-12",
+        "month_name": "December 2025",
+        "stocks": [
+          {
+            "ticker": "CMCSA",
+            "weight": 56.16,
+            "weight_pct": "56.2%"
+          },
+          {
+            "ticker": "AVGO",
+            "weight": 23.37,
+            "weight_pct": "23.4%"
+          },
+          {
+            "ticker": "NFLX",
+            "weight": 11.99,
+            "weight_pct": "12.0%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 5.76,
+            "weight_pct": "5.8%"
+          },
+          {
+            "ticker": "INTC",
+            "weight": 1.3,
+            "weight_pct": "1.3%"
+          },
+          {
+            "ticker": "COST",
+            "weight": 0.9,
+            "weight_pct": "0.9%"
+          },
+          {
+            "ticker": "META",
+            "weight": 0.31,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "BKNG",
+            "weight": 0.14,
+            "weight_pct": "0.1%"
+          }
+        ]
+      }
+    ],
+    "monthly": [
+      {
+        "date": "2024-12",
+        "month_name": "December 2024",
+        "stocks": [
+          {
+            "ticker": "DBC",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VEA",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VNQ",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "VWO",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          },
+          {
+            "ticker": "AAPL",
+            "weight": 2.17,
+            "weight_pct": "2.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-01",
+        "month_name": "January 2025",
+        "stocks": [
+          {
+            "ticker": "TSLA",
+            "weight": 52.17,
+            "weight_pct": "52.2%"
+          },
+          {
+            "ticker": "DBC",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "VEA",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "VNQ",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          },
+          {
+            "ticker": "VWO",
+            "weight": 1.06,
+            "weight_pct": "1.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-02",
+        "month_name": "February 2025",
+        "stocks": [
+          {
+            "ticker": "CMCSA",
+            "weight": 51.06,
+            "weight_pct": "51.1%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 25.81,
+            "weight_pct": "25.8%"
+          },
+          {
+            "ticker": "DBC",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "VEA",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          },
+          {
+            "ticker": "VNQ",
+            "weight": 0.53,
+            "weight_pct": "0.5%"
+          }
+        ]
+      },
+      {
+        "date": "2025-03",
+        "month_name": "March 2025",
+        "stocks": [
+          {
+            "ticker": "NVDA",
+            "weight": 50.53,
+            "weight_pct": "50.5%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 25.4,
+            "weight_pct": "25.4%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 12.84,
+            "weight_pct": "12.8%"
+          },
+          {
+            "ticker": "DBC",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          },
+          {
+            "ticker": "VEA",
+            "weight": 0.26,
+            "weight_pct": "0.3%"
+          }
+        ]
+      },
+      {
+        "date": "2025-04",
+        "month_name": "April 2025",
+        "stocks": [
+          {
+            "ticker": "INTC",
+            "weight": 50.26,
+            "weight_pct": "50.3%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 25.2,
+            "weight_pct": "25.2%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 12.66,
+            "weight_pct": "12.7%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 6.4,
+            "weight_pct": "6.4%"
+          },
+          {
+            "ticker": "DBC",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          },
+          {
+            "ticker": "GLD",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          },
+          {
+            "ticker": "IEF",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          },
+          {
+            "ticker": "QQQ",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          },
+          {
+            "ticker": "SPY",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          },
+          {
+            "ticker": "TLT",
+            "weight": 0.13,
+            "weight_pct": "0.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-05",
+        "month_name": "May 2025",
+        "stocks": [
+          {
+            "ticker": "QCOM",
+            "weight": 50.13,
+            "weight_pct": "50.1%"
+          },
+          {
+            "ticker": "INTC",
+            "weight": 25.1,
+            "weight_pct": "25.1%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 12.58,
+            "weight_pct": "12.6%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 6.32,
+            "weight_pct": "6.3%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 3.2,
+            "weight_pct": "3.2%"
+          }
+        ]
+      },
+      {
+        "date": "2025-06",
+        "month_name": "June 2025",
+        "stocks": [
+          {
+            "ticker": "TSLA",
+            "weight": 53.2,
+            "weight_pct": "53.2%"
+          },
+          {
+            "ticker": "QCOM",
+            "weight": 24.24,
+            "weight_pct": "24.2%"
+          },
+          {
+            "ticker": "INTC",
+            "weight": 12.13,
+            "weight_pct": "12.1%"
+          },
+          {
+            "ticker": "NVDA",
+            "weight": 6.08,
+            "weight_pct": "6.1%"
+          },
+          {
+            "ticker": "CMCSA",
+            "weight": 3.06,
+            "weight_pct": "3.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-07",
+        "month_name": "July 2025",
+        "stocks": [
+          {
+            "ticker": "TSLA",
+            "weight": 100.0,
+            "weight_pct": "100.0%"
+          }
+        ]
+      },
+      {
+        "date": "2025-08",
+        "month_name": "August 2025",
+        "stocks": [
+          {
+            "ticker": "AMZN",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          }
+        ]
+      },
+      {
+        "date": "2025-09",
+        "month_name": "September 2025",
+        "stocks": [
+          {
+            "ticker": "LRCX",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 25.0,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 25.0,
+            "weight_pct": "25.0%"
+          }
+        ]
+      },
+      {
+        "date": "2025-10",
+        "month_name": "October 2025",
+        "stocks": [
+          {
+            "ticker": "ADBE",
+            "weight": 47.59,
+            "weight_pct": "47.6%"
+          },
+          {
+            "ticker": "LRCX",
+            "weight": 25.0,
+            "weight_pct": "25.0%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 12.5,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 12.5,
+            "weight_pct": "12.5%"
+          },
+          {
+            "ticker": "META",
+            "weight": 2.41,
+            "weight_pct": "2.4%"
+          }
+        ]
+      },
+      {
+        "date": "2025-11",
+        "month_name": "November 2025",
+        "stocks": [
+          {
+            "ticker": "META",
+            "weight": 52.41,
+            "weight_pct": "52.4%"
+          },
+          {
+            "ticker": "ADBE",
+            "weight": 23.21,
+            "weight_pct": "23.2%"
+          },
+          {
+            "ticker": "LRCX",
+            "weight": 12.19,
+            "weight_pct": "12.2%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 6.1,
+            "weight_pct": "6.1%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 6.1,
+            "weight_pct": "6.1%"
+          }
+        ]
+      },
+      {
+        "date": "2025-12",
+        "month_name": "December 2025",
+        "stocks": [
+          {
+            "ticker": "TLT",
+            "weight": 50.0,
+            "weight_pct": "50.0%"
+          },
+          {
+            "ticker": "META",
+            "weight": 26.21,
+            "weight_pct": "26.2%"
+          },
+          {
+            "ticker": "ADBE",
+            "weight": 11.6,
+            "weight_pct": "11.6%"
+          },
+          {
+            "ticker": "LRCX",
+            "weight": 6.1,
+            "weight_pct": "6.1%"
+          },
+          {
+            "ticker": "AMZN",
+            "weight": 3.05,
+            "weight_pct": "3.0%"
+          },
+          {
+            "ticker": "TSLA",
+            "weight": 3.05,
+            "weight_pct": "3.0%"
+          }
+        ]
+      }
+    ]
+  },
+  "stock_frequency": {
+    "weekly": [
+      {
+        "ticker": "AVGO",
+        "months_selected": 7,
+        "frequency_pct": 53.8,
+        "avg_weight": 12.12
+      },
+      {
+        "ticker": "NVDA",
+        "months_selected": 6,
+        "frequency_pct": 46.2,
+        "avg_weight": 8.6
+      },
+      {
+        "ticker": "INTC",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 6.02
+      },
+      {
+        "ticker": "NFLX",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 6.93
+      },
+      {
+        "ticker": "AAPL",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 2.26
+      },
+      {
+        "ticker": "TSLA",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 7.02
+      },
+      {
+        "ticker": "TMUS",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 5.59
+      },
+      {
+        "ticker": "CMCSA",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 8.84
+      },
+      {
+        "ticker": "QCOM",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 5.27
+      },
+      {
+        "ticker": "AMD",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 1.92
+      },
+      {
+        "ticker": "AMAT",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 5.46
+      },
+      {
+        "ticker": "SBUX",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 2.67
+      },
+      {
+        "ticker": "DBC",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 4.13
+      },
+      {
+        "ticker": "ADBE",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 2.06
+      },
+      {
+        "ticker": "TLT",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 1.44
+      },
+      {
+        "ticker": "ISRG",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 1.65
+      },
+      {
+        "ticker": "INTU",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 6.14
+      },
+      {
+        "ticker": "COST",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 3.37
+      },
+      {
+        "ticker": "AMZN",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.51
+      },
+      {
+        "ticker": "LRCX",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.43
+      },
+      {
+        "ticker": "GLD",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.4
+      },
+      {
+        "ticker": "IEF",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.34
+      },
+      {
+        "ticker": "VRTX",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.4
+      },
+      {
+        "ticker": "META",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.61
+      },
+      {
+        "ticker": "BKNG",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.37
+      },
+      {
+        "ticker": "AMGN",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 1.97
+      },
+      {
+        "ticker": "QQQ",
+        "months_selected": 1,
+        "frequency_pct": 7.7,
+        "avg_weight": 0.17
+      },
+      {
+        "ticker": "SPY",
+        "months_selected": 1,
+        "frequency_pct": 7.7,
+        "avg_weight": 0.17
+      },
+      {
+        "ticker": "VNQ",
+        "months_selected": 1,
+        "frequency_pct": 7.7,
+        "avg_weight": 0.17
+      },
+      {
+        "ticker": "VWO",
+        "months_selected": 1,
+        "frequency_pct": 7.7,
+        "avg_weight": 0.17
+      }
+    ],
+    "monthly": [
+      {
+        "ticker": "TSLA",
+        "months_selected": 13,
+        "frequency_pct": 100.0,
+        "avg_weight": 27.11
+      },
+      {
+        "ticker": "AMZN",
+        "months_selected": 7,
+        "frequency_pct": 53.8,
+        "avg_weight": 7.76
+      },
+      {
+        "ticker": "CMCSA",
+        "months_selected": 7,
+        "frequency_pct": 53.8,
+        "avg_weight": 7.83
+      },
+      {
+        "ticker": "LRCX",
+        "months_selected": 6,
+        "frequency_pct": 46.2,
+        "avg_weight": 7.5
+      },
+      {
+        "ticker": "NVDA",
+        "months_selected": 6,
+        "frequency_pct": 46.2,
+        "avg_weight": 7.55
+      },
+      {
+        "ticker": "ADBE",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 6.67
+      },
+      {
+        "ticker": "META",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 6.56
+      },
+      {
+        "ticker": "INTC",
+        "months_selected": 5,
+        "frequency_pct": 38.5,
+        "avg_weight": 7.04
+      },
+      {
+        "ticker": "QCOM",
+        "months_selected": 4,
+        "frequency_pct": 30.8,
+        "avg_weight": 6.04
+      },
+      {
+        "ticker": "TLT",
+        "months_selected": 3,
+        "frequency_pct": 23.1,
+        "avg_weight": 4.17
+      },
+      {
+        "ticker": "GLD",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "IEF",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "QQQ",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "DBC",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "AMD",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "AMAT",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "ADP",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "AAPL",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "VNQ",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "VWO",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "VEA",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "SPY",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "GOLD.AX",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "GOOG",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "HON",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "AVGO",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "BKNG",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "COST",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "CSCO",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      },
+      {
+        "ticker": "AMGN",
+        "months_selected": 2,
+        "frequency_pct": 15.4,
+        "avg_weight": 0.33
+      }
+    ]
+  }
+}

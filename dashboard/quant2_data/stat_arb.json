@@ -1,0 +1,95 @@
+{
+  "generated_at": "2025-12-26T10:13:43.635427",
+  "summary": {
+    "active_pairs": 12,
+    "clusters": 5,
+    "avg_half_life": 8.2,
+    "pca_variance": 0.82
+  },
+  "active_signals": [
+    {
+      "pair": "MSFT / GOOGL",
+      "cluster": "Tech-Large",
+      "zscore": -2.14,
+      "hedge_ratio": 0.82,
+      "half_life": 6.4,
+      "signal": "LONG_SPREAD"
+    },
+    {
+      "pair": "XOM / CVX",
+      "cluster": "Energy",
+      "zscore": 2.31,
+      "hedge_ratio": 1.12,
+      "half_life": 8.2,
+      "signal": "SHORT_SPREAD"
+    },
+    {
+      "pair": "JPM / BAC",
+      "cluster": "Financials",
+      "zscore": -1.87,
+      "hedge_ratio": 0.45,
+      "half_life": 12.1,
+      "signal": "LONG_SPREAD"
+    }
+  ],
+  "clusters": [
+    {
+      "id": 0,
+      "name": "Tech-Large",
+      "stocks": [
+        "AAPL",
+        "MSFT",
+        "GOOGL",
+        "META",
+        "AMZN",
+        "NVDA",
+        "CRM",
+        "ADBE"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Financials",
+      "stocks": [
+        "JPM",
+        "BAC",
+        "WFC",
+        "GS",
+        "MS",
+        "C"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Energy",
+      "stocks": [
+        "XOM",
+        "CVX",
+        "COP",
+        "SLB",
+        "EOG"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Healthcare",
+      "stocks": [
+        "JNJ",
+        "UNH",
+        "PFE",
+        "MRK",
+        "ABBV"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Consumer",
+      "stocks": [
+        "PG",
+        "KO",
+        "PEP",
+        "WMT"
+      ]
+    }
+  ]
+}

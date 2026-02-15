@@ -1,0 +1,67 @@
+{
+  "generated_at": "2025-12-26T10:13:43.636250",
+  "current": {
+    "regime": "BULL",
+    "probabilities": {
+      "bull": 0.72,
+      "bear": 0.08,
+      "chop": 0.2
+    },
+    "days_in_regime": 34,
+    "method": "HMM_3_STATE"
+  },
+  "allocations": {
+    "BULL": {
+      "residual_momentum": 0.4,
+      "stat_arb": 0.2,
+      "short_vol": 0.25,
+      "cash": 0.15
+    },
+    "BEAR": {
+      "residual_momentum": 0.05,
+      "stat_arb": 0.15,
+      "short_vol": 0.0,
+      "cash": 0.8
+    },
+    "CHOP": {
+      "residual_momentum": 0.15,
+      "stat_arb": 0.4,
+      "short_vol": 0.3,
+      "cash": 0.15
+    }
+  },
+  "transition_matrix": {
+    "BULL": {
+      "BULL": 0.92,
+      "BEAR": 0.03,
+      "CHOP": 0.05
+    },
+    "BEAR": {
+      "BULL": 0.08,
+      "BEAR": 0.82,
+      "CHOP": 0.1
+    },
+    "CHOP": {
+      "BULL": 0.12,
+      "BEAR": 0.08,
+      "CHOP": 0.8
+    }
+  },
+  "stats": {
+    "BULL": {
+      "mean_return": 0.182,
+      "volatility": 0.124,
+      "avg_duration": 85
+    },
+    "BEAR": {
+      "mean_return": -0.225,
+      "volatility": 0.281,
+      "avg_duration": 42
+    },
+    "CHOP": {
+      "mean_return": 0.021,
+      "volatility": 0.168,
+      "avg_duration": 35
+    }
+  }
+}

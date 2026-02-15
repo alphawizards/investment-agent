@@ -1,0 +1,27 @@
+[
+  {
+    "strategy": "OLMAR-Weekly",
+    "rebalance_freq": "weekly",
+    "total_return": -0.022085994986019264,
+    "cagr": -0.003725174659269359,
+    "volatility": 0.23586478832551336,
+    "sharpe_ratio": -0.06749012306409789,
+    "max_drawdown": -0.4041307162318162,
+    "total_cost_drag": 0.3160481343398427
+  },
+  {
+    "strategy": "OLMAR-Monthly",
+    "rebalance_freq": "monthly",
+    "total_return": 1.2773460324592185,
+    "cagr": 0.14743876697414748,
+    "volatility": 0.21771470723257222,
+    "sharpe_ratio": 0.5570025200294919,
+    "max_drawdown": -0.30018220521585814,
+    "total_cost_drag": 0.08050000000000002
+  },
+  {
+    "strategy": "Equal-Weight Benchmark",
+    "total_return": 5.377147289051253,
+    "sharpe_ratio": 1.248932239160983
+  }
+]

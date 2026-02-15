@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Update Schedule</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --accent: #00d4ff;
+            --accent-alt: #7b68ee;
+            --success: #00ff88;
+            --danger: #ff4466;
+            --warning: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-btn-v1 {
+            background: rgba(160, 160, 192, 0.2);
+            color: #a0a0c0;
+        }
+
+        .nav-btn-v2 {
+            background: linear-gradient(135deg, var(--accent) 0%, #7b68ee 100%);
+            color: white;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .schedule-table th {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .schedule-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .schedule-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .schedule-table tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Frequency Badges */
+        .freq-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .freq-daily {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent);
+        }
+
+        .freq-weekly {
+            background: rgba(123, 104, 238, 0.2);
+            color: #7b68ee;
+        }
+
+        .freq-monthly {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+        }
+
+        /* Status Indicators */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-fresh {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .status-stale {
+            background: var(--warning);
+            box-shadow: 0 0 8px var(--warning);
+        }
+
+        .status-expired {
+            background: var(--danger);
+            box-shadow: 0 0 8px var(--danger);
+        }
+
+        /* Timestamp */
+        .timestamp {
+            font-family: 'Consolas', monospace;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .timestamp-fresh {
+            color: var(--success);
+        }
+
+        .timestamp-stale {
+            color: var(--warning);
+        }
+
+        .timestamp-expired {
+            color: var(--danger);
+        }
+
+        /* Actions */
+        .run-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .run-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .run-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .info-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Callout */
+        .callout {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .callout-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .schedule-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Update<span>Schedule</span></div>
+        <div class="header-nav">
+            <a href="strategy_dashboard.html" class="nav-btn nav-btn-v1">📊 Quant 1.0</a>
+            <a href="quant2_dashboard.html" class="nav-btn nav-btn-v2">📊 Quant 2.0</a>
+            <a href="quallamaggie_scanner.html" class="nav-btn nav-btn-v1">🎯 Scanner</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">📅 Data Update Schedule</h1>
+            <p class="page-subtitle">Recommended update frequencies and last update timestamps for all strategies</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-title">📈 Data Sources</div>
+                <div class="info-item">
+                    <span class="info-label">S&P 500</span>
+                    <span class="info-value">501 tickers</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">NASDAQ 100</span>
+                    <span class="info-value">100 tickers</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">ASX 200</span>
+                    <span class="info-value">200 tickers</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Core ETFs</span>
+                    <span class="info-value">21 ETFs</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">⏱️ Next Updates Due</div>
+                <div class="info-item">
+                    <span class="info-label">Daily (Quallamaggie)</span>
+                    <span class="info-value" id="nextDaily">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Weekly (Quant 1.0/2.0)</span>
+                    <span class="info-value" id="nextWeekly">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Monthly (Residual Mom)</span>
+                    <span class="info-value" id="nextMonthly">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">ℹ️ Rebalancing Frequency Logic</div>
+            <div class="callout-text">
+                <strong>Residual Momentum</strong> uses monthly Fama-French factors and requires monthly rebalancing.
+                All other Quant 2.0 strategies can run weekly. Quallamaggie breakout scanner should run daily for timely
+                entries.
+            </div>
+        </div>
+
+        <!-- Main Schedule Table -->
+        <h2 class="section-title">Update Schedule</h2>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Frequency</th>
+                    <th>Recommended Time</th>
+                    <th>Last Updated</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleBody">
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Quant 2.0 Strategy Details -->
+        <h2 class="section-title">Quant 2.0 Strategy Rebalancing</h2>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Rebalance Freq</th>
+                    <th>Data Dependency</th>
+                    <th>Last Signal</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>HMM Regime Detection</strong></td>
+                    <td><span class="freq-badge freq-weekly">Weekly</span></td>
+                    <td>Daily market returns, VIX</td>
+                    <td class="timestamp" id="hmmLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Statistical Arbitrage</strong></td>
+                    <td><span class="freq-badge freq-weekly">Weekly</span></td>
+                    <td>Daily prices for z-score</td>
+                    <td class="timestamp" id="statArbLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Meta-Labeling</strong></td>
+                    <td><span class="freq-badge freq-weekly">Weekly</span></td>
+                    <td>Daily + trained model</td>
+                    <td class="timestamp" id="metaLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+                <tr>
+                    <td><strong>VRP Signal (Short Vol)</strong></td>
+                    <td><span class="freq-badge freq-weekly">Weekly</span></td>
+                    <td>VIX, VIX3M term structure</td>
+                    <td class="timestamp" id="vrpLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+                <tr>
+                    <td><strong>NCO Optimizer</strong></td>
+                    <td><span class="freq-badge freq-weekly">Weekly</span></td>
+                    <td>Covariance matrix</td>
+                    <td class="timestamp" id="ncoLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+                <tr style="background: rgba(255, 170, 0, 0.05);">
+                    <td><strong>Residual Momentum</strong> ⚠️</td>
+                    <td><span class="freq-badge freq-monthly">Monthly</span></td>
+                    <td>Fama-French monthly factors</td>
+                    <td class="timestamp" id="resMomLast">--</td>
+                    <td><span class="status"><span class="status-dot status-fresh"></span> Active</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        // Schedule data structure
+        const scheduleData = [
+            {
+                component: 'Quallamaggie Scanner',
+                frequency: 'daily',
+                freqLabel: 'Daily',
+                recommendedTime: 'After market close (4:30 PM ET)',
+                timestampKey: 'scanner',
+                command: 'python refresh_data.py --scanner'
+            },
+            {
+                component: 'Market Data (Prices)',
+                frequency: 'daily',
+                freqLabel: 'Daily',
+                recommendedTime: 'After market close',
+                timestampKey: 'prices',
+                command: 'python refresh_data.py --prices-only'
+            },
+            {
+                component: 'Quant 1.0 Strategies',
+                frequency: 'weekly',
+                freqLabel: 'Weekly',
+                recommendedTime: 'Sunday 6:00 PM',
+                timestampKey: 'quant1.momentum',
+                command: 'python refresh_data.py --quant1'
+            },
+            {
+                component: 'Quant 2.0 (Weekly)',
+                frequency: 'weekly',
+                freqLabel: 'Weekly',
+                recommendedTime: 'Sunday 6:00 PM',
+                timestampKey: 'quant2.regime',
+                command: 'python refresh_data.py --quant2'
+            },
+            {
+                component: 'Full Refresh (All)',
+                frequency: 'weekly',
+                freqLabel: 'Weekly',
+                recommendedTime: 'Sunday 6:00 PM',
+                timestampKey: 'last_updated',
+                command: 'python refresh_data.py --all'
+            }
+        ];
+
+        // Timestamps from JSON file
+        let jsonTimestamps = {};
+
+        // Load timestamps from dashboard/data/timestamps.json
+        async function loadTimestampsFromJSON() {
+            try {
+                const response = await fetch('data/timestamps.json');
+                if (response.ok) {
+                    jsonTimestamps = await response.json();
+                    console.log('Loaded timestamps from JSON:', jsonTimestamps);
+                    return jsonTimestamps;
+                }
+            } catch (e) {
+                console.log('No timestamps.json found, using localStorage fallback');
+            }
+            // Fallback to localStorage
+            const stored = localStorage.getItem('updateTimestamps');
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((o, k) => (o || {})[k], obj);
+        }
+
+        function getStatusClass(lastUpdated, frequency) {
+            if (!lastUpdated) return 'expired';
+
+            const now = new Date();
+            const updated = new Date(lastUpdated);
+            const hoursSince = (now - updated) / (1000 * 60 * 60);
+
+            switch (frequency) {
+                case 'daily':
+                    if (hoursSince < 24) return 'fresh';
+                    if (hoursSince < 48) return 'stale';
+                    return 'expired';
+                case 'weekly':
+                    if (hoursSince < 168) return 'fresh';
+                    if (hoursSince < 336) return 'stale';
+                    return 'expired';
+                case 'monthly':
+                    if (hoursSince < 744) return 'fresh';
+                    if (hoursSince < 1488) return 'stale';
+                    return 'expired';
+                default:
+                    return 'fresh';
+            }
+        }
+
+        function formatTimestamp(ts) {
+            if (!ts) return 'Never';
+            const d = new Date(ts);
+            return d.toLocaleString('en-AU', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function copyCommand(command) {
+            navigator.clipboard.writeText(command).then(() => {
+                alert('Command copied to clipboard!\\n\\n' + command);
+            });
+        }
+
+        function renderScheduleTable(timestamps) {
+            const tbody = document.getElementById('scheduleBody');
+
+            tbody.innerHTML = scheduleData.map(item => {
+                const ts = getNestedValue(timestamps, item.timestampKey);
+                const status = getStatusClass(ts, item.frequency);
+                const statusLabel = status === 'fresh' ? 'Up to date' :
+                    status === 'stale' ? 'Due soon' : 'Overdue';
+
+                return `
+                    <tr>
+                        <td><strong>${item.component}</strong></td>
+                        <td><span class="freq-badge freq-${item.frequency}">${item.freqLabel}</span></td>
+                        <td>${item.recommendedTime}</td>
+                        <td class="timestamp timestamp-${status}">${formatTimestamp(ts)}</td>
+                        <td>
+                            <span class="status">
+                                <span class="status-dot status-${status}"></span>
+                                ${statusLabel}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="run-btn" onclick="copyCommand('${item.command}')" title="${item.command}">
+                                📋 Copy Command
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderQuant2Timestamps(timestamps) {
+            const quant2 = timestamps.quant2 || {};
+
+            document.getElementById('hmmLast').textContent = formatTimestamp(quant2.regime);
+            document.getElementById('statArbLast').textContent = formatTimestamp(quant2.stat_arb);
+            document.getElementById('metaLast').textContent = formatTimestamp(quant2.meta_labeling);
+            document.getElementById('vrpLast').textContent = formatTimestamp(quant2.vrp);
+            document.getElementById('ncoLast').textContent = formatTimestamp(quant2.nco);
+            document.getElementById('resMomLast').textContent = formatTimestamp(quant2.residual_momentum);
+        }
+
+        function calculateNextDue() {
+            const now = new Date();
+
+            // Next daily: tomorrow after market close
+            const nextDaily = new Date(now);
+            nextDaily.setDate(nextDaily.getDate() + 1);
+            nextDaily.setHours(16, 30, 0, 0);
+            document.getElementById('nextDaily').textContent = formatTimestamp(nextDaily);
+
+            // Next weekly: next Sunday
+            const nextSunday = new Date(now);
+            nextSunday.setDate(nextSunday.getDate() + (7 - nextSunday.getDay()));
+            nextSunday.setHours(18, 0, 0, 0);
+            document.getElementById('nextWeekly').textContent = formatTimestamp(nextSunday);
+
+            // Next monthly: 1st of next month
+            const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+            nextMonth.setHours(9, 30, 0, 0);
+            document.getElementById('nextMonthly').textContent = formatTimestamp(nextMonth);
+        }
+
+        // Initialize
+        async function init() {
+            const timestamps = await loadTimestampsFromJSON();
+            renderScheduleTable(timestamps);
+            renderQuant2Timestamps(timestamps);
+            calculateNextDue();
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

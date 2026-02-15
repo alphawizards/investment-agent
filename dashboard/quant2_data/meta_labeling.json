@@ -1,0 +1,73 @@
+{
+  "generated_at": "2025-12-26T10:13:43.637403",
+  "model": {
+    "auc": 0.71,
+    "threshold": 0.65,
+    "filter_rate": 0.57
+  },
+  "today": {
+    "total_signals": 7,
+    "accepted": 3,
+    "rejected": 4
+  },
+  "signals": [
+    {
+      "ticker": "AAPL",
+      "probability": 0.78,
+      "decision": "ACCEPT",
+      "vix": 14.2,
+      "rvol": 2.4,
+      "atr_pct": 0.018,
+      "dist_ma50": 0.042
+    },
+    {
+      "ticker": "NVDA",
+      "probability": 0.82,
+      "decision": "ACCEPT",
+      "vix": 14.2,
+      "rvol": 3.1,
+      "atr_pct": 0.024,
+      "dist_ma50": 0.081
+    },
+    {
+      "ticker": "TSLA",
+      "probability": 0.69,
+      "decision": "ACCEPT",
+      "vix": 14.2,
+      "rvol": 1.8,
+      "atr_pct": 0.032,
+      "dist_ma50": 0.124
+    },
+    {
+      "ticker": "AMD",
+      "probability": 0.42,
+      "decision": "REJECT",
+      "vix": 14.2,
+      "rvol": 0.9,
+      "atr_pct": 0.028,
+      "dist_ma50": 0.182
+    }
+  ],
+  "feature_importance": [
+    {
+      "name": "VIX Percentile",
+      "importance": 0.182
+    },
+    {
+      "name": "RVOL",
+      "importance": 0.161
+    },
+    {
+      "name": "21d Momentum",
+      "importance": 0.132
+    },
+    {
+      "name": "ATR%",
+      "importance": 0.118
+    },
+    {
+      "name": "Dist MA50",
+      "importance": 0.098
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+#:schema https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json
+name = "potential-parakeet"
+compatibility_date = "2024-04-03"
+pages_build_output_dir = "dashboard/dist"
+
+# Cloudflare Pages Configuration
+# Build command: cd dashboard && npm install && npm run build
+# Build output directory: dashboard/dist
+# IMPORTANT: Set "Build output directory" in Cloudflare Pages dashboard to: dashboard/dist
+# Leave the "Deploy command" field EMPTY in the Cloudflare Pages dashboard
+
+[vars]
+ENVIRONMENT = "production"
+API_URL = "https://api.potential-parakeet.com"

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Strategy Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --accent: #00d4ff;
+            --accent-alt: #7b68ee;
+            --success: #00ff88;
+            --danger: #ff4466;
+            --warning: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .last-update {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Main Layout */
+        main {
+            padding: 30px 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-value.positive {
+            color: var(--success);
+        }
+
+        .stat-value.negative {
+            color: var(--danger);
+        }
+
+        .stat-value.neutral {
+            color: var(--accent);
+        }
+
+        .stat-change {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        /* Strategy Section */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Strategy Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .comparison-table th {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comparison-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .strategy-name {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        /* Rolling Stats */
+        .rolling-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .rolling-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .rolling-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .rolling-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Strategy Cards */
+        .strategy-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .strategy-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .strategy-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .strategy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .strategy-card-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .strategy-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-momentum {
+            background: rgba(123, 104, 238, 0.2);
+            color: #7b68ee;
+        }
+
+        .badge-hrp {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .badge-dual {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+        }
+
+        .strategy-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rolling-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Quant<span>1.0</span></div>
+        <div class="header-actions">
+            <a href="strategy_dashboard.html"
+                style="background: linear-gradient(135deg, #00d4ff 0%, #7b68ee 100%); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">📊
+                Quant 1.0</a>
+            <a href="quant2_dashboard.html"
+                style="background: rgba(160, 160, 192, 0.2); color: var(--text-secondary); padding: 6px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">📊
+                Quant 2.0</a>
+            <a href="olmar_dashboard.html"
+                style="color: var(--text-secondary); text-decoration: none; margin-left: 8px;">📈 OLMAR</a>
+            <a href="quallamaggie_scanner.html" style="color: var(--text-secondary); text-decoration: none;">🎯
+                Scanner</a>
+            <a href="update_schedule.html" style="color: var(--text-secondary); text-decoration: none;">📅 Schedule</a>
+            <a href="strategy_guide.html" style="color: var(--text-secondary); text-decoration: none;">📚 Guide</a>
+            <span class="last-update" id="lastUpdate">Last updated: --</span>
+            <button class="btn btn-primary" onclick="runScan()">🔄 Run Scan</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Stats Overview -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">Best Strategy</div>
+                <div class="stat-value neutral" id="bestStrategy">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Highest CAGR</div>
+                <div class="stat-value positive" id="highestCagr">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Best Sharpe</div>
+                <div class="stat-value positive" id="bestSharpe">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Lowest Drawdown</div>
+                <div class="stat-value negative" id="lowestDD">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Strategies</div>
+                <div class="stat-value neutral" id="strategyCount">--</div>
+            </div>
+        </div>
+
+        <!-- Strategy Comparison -->
+        <h2 class="section-title">Strategy Comparison</h2>
+        <table class="comparison-table" id="comparisonTable">
+            <thead>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Final Value</th>
+                    <th>CAGR</th>
+                    <th>Sharpe</th>
+                    <th>Sortino</th>
+                    <th>Max DD</th>
+                    <th>Calmar</th>
+                    <th>Win Rate</th>
+                </tr>
+            </thead>
+            <tbody id="comparisonBody">
+                <tr>
+                    <td colspan="8" class="loading">
+                        <div class="spinner"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Equity Curves</div>
+                <canvas id="equityChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Risk vs Return</div>
+                <canvas id="riskReturnChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Rolling Stats -->
+        <h2 class="section-title">Rolling Performance (30-Day)</h2>
+        <div class="rolling-stats" id="rollingStats">
+            <div class="rolling-card">
+                <div class="rolling-title">Rolling Sharpe</div>
+                <div class="rolling-value positive" id="rollingSharpe">--</div>
+            </div>
+            <div class="rolling-card">
+                <div class="rolling-title">Rolling Volatility</div>
+                <div class="rolling-value neutral" id="rollingVol">--</div>
+            </div>
+            <div class="rolling-card">
+                <div class="rolling-title">Rolling Return</div>
+                <div class="rolling-value positive" id="rollingReturn">--</div>
+            </div>
+        </div>
+
+        <!-- Strategy Cards -->
+        <h2 class="section-title">Strategy Details</h2>
+        <div class="strategy-cards" id="strategyCards">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+    <script>
+        // Legacy API variables - overridden below
+        // const API_BASE = 'http://localhost:8001/api';
+        const API_KEY = 'dev-key-change-me';  // Default dev key - change in production
+        let dashboardData = null;
+        let equityChart = null;
+        let riskReturnChart = null;
+
+        async function fetchDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/dashboard`, {
+                    headers: { 'X-API-Key': API_KEY }
+                });
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || 'API error');
+                }
+                dashboardData = await response.json();
+                updateDashboard(dashboardData);
+            } catch (error) {
+                console.error('Failed to fetch dashboard:', error);
+                showError(error.message || 'Failed to connect to API');
+            }
+        }
+
+        // Update dashboard with data
+        function updateDashboard(data) {
+            if (!data.strategies || data.strategies.length === 0) {
+                showNoData();
+                return;
+            }
+
+            // Update last updated
+            if (data.last_updated) {
+                document.getElementById('lastUpdate').textContent =
+                    `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
+            }
+
+            // Update stats
+            updateStats(data);
+
+            // Update comparison table
+            updateComparisonTable(data.comparison_table);
+
+            // Update strategy cards
+            updateStrategyCards(data.strategies);
+        }
+
+        function updateStats(data) {
+            const strategies = Object.values(data.strategies || {});
+            if (strategies.length === 0) return;
+
+            // Find best performers
+            let bestCagr = { name: '', value: -Infinity };
+            let bestSharpe = { name: '', value: -Infinity };
+            let lowestDD = { name: '', value: -Infinity };
+
+            strategies.forEach(s => {
+                const cagr = parseFloat(s.metrics?.CAGR?.replace('%', '') || 0);
+                const sharpe = parseFloat(s.metrics?.['Sharpe Ratio'] || 0);
+                const dd = parseFloat(s.metrics?.['Max Drawdown']?.replace('%', '') || 0);
+
+                if (cagr > bestCagr.value) {
+                    bestCagr = { name: s.strategy_name || 'Unknown', value: cagr };
+                }
+                if (sharpe > bestSharpe.value) {
+                    bestSharpe = { name: s.strategy_name || 'Unknown', value: sharpe };
+                }
+                if (dd > lowestDD.value) {
+                    lowestDD = { name: s.strategy_name || 'Unknown', value: dd };
+                }
+            });
+
+            document.getElementById('bestStrategy').textContent = bestSharpe.name;
+            document.getElementById('highestCagr').textContent = bestCagr.value.toFixed(2) + '%';
+            document.getElementById('bestSharpe').textContent = bestSharpe.value.toFixed(3);
+            document.getElementById('lowestDD').textContent = lowestDD.value.toFixed(2) + '%';
+            document.getElementById('strategyCount').textContent = strategies.length;
+        }
+
+        function updateComparisonTable(comparison) {
+            const tbody = document.getElementById('comparisonBody');
+
+            if (!comparison || comparison.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8">No data available</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = comparison.map(row => `
+                <tr>
+                    <td class="strategy-name">${row.Strategy || '--'}</td>
+                    <td>${row['Final Value'] || '--'}</td>
+                    <td>${row.CAGR || '--'}</td>
+                    <td>${row.Sharpe || row['Sharpe Ratio'] || '--'}</td>
+                    <td>${row.Sortino || row['Sortino Ratio'] || '--'}</td>
+                    <td>${row['Max DD'] || row['Max Drawdown'] || '--'}</td>
+                    <td>${row.Calmar || row['Calmar Ratio'] || '--'}</td>
+                    <td>${row['Win Rate'] || '--'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStrategyCards(strategies) {
+            const container = document.getElementById('strategyCards');
+
+            if (!strategies || Object.keys(strategies).length === 0) {
+                container.innerHTML = '<p>No strategies available</p>';
+                return;
+            }
+
+            const strategyList = Object.values(strategies);
+
+            container.innerHTML = strategyList.map(s => {
+                const name = s.strategy_name || 'Unknown';
+                const metrics = s.metrics || {};
+                const badgeClass = name.includes('Momentum') ? 'badge-momentum' :
+                    name.includes('HRP') ? 'badge-hrp' : 'badge-dual';
+
+                return `
+                    <div class="strategy-card">
+                        <div class="strategy-header">
+                            <span class="strategy-card-name">${name}</span>
+                            <span class="strategy-badge ${badgeClass}">${getBadgeText(name)}</span>
+                        </div>
+                        <div class="strategy-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">CAGR</span>
+                                <span class="metric-value">${metrics.CAGR || '--'}</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Sharpe</span>
+                                <span class="metric-value">${metrics['Sharpe Ratio'] || '--'}</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Volatility</span>
+                                <span class="metric-value">${metrics.Volatility || '--'}</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Max DD</span>
+                                <span class="metric-value">${metrics['Max Drawdown'] || '--'}</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Win Rate</span>
+                                <span class="metric-value">${metrics['Win Rate'] || '--'}</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Rolling Sharpe</span>
+                                <span class="metric-value">${metrics['Rolling Sharpe (30D)'] || '--'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getBadgeText(name) {
+            if (name.includes('Momentum')) return 'Momentum';
+            if (name.includes('HRP')) return 'Risk Parity';
+            if (name.includes('Dual')) return 'Dual Mom';
+            return 'Strategy';
+        }
+
+
+        // API Base URL - Use relative path for proper proxying
+        const API_BASE = '/api';
+
+        // Load data from API (with fallback to JSON)
+        async function loadDashboardData() {
+            try {
+                // Try API first
+                let data;
+                try {
+                    const response = await fetch(`${API_BASE}/dashboard/quant1`);
+                    if (response.ok) {
+                        data = await response.json();
+                        console.log('Loaded from API:', data);
+                    } else {
+                        throw new Error('API not available');
+                    }
+                } catch (apiError) {
+                    console.log('API unavailable, falling back to JSON file');
+                    const response = await fetch('data/quant1_dashboard.json');
+                    if (!response.ok) throw new Error('Data file not found');
+                    data = await response.json();
+                }
+
+                // Update Timestamp
+                if (data.generated_at) {
+                    const ts = new Date(data.generated_at).toLocaleString();
+                    document.getElementById('lastUpdate').textContent = `Last Updated: ${ts}`;
+                }
+
+                // Get strategies from the response
+                const strategies = data.strategies || {};
+                const strategyList = Object.entries(strategies);
+
+                if (strategyList.length === 0) {
+                    // No strategies available
+                    document.getElementById('comparisonBody').innerHTML =
+                        '<tr><td colspan="8">No strategy data available. Run backtest first.</td></tr>';
+                    return;
+                }
+
+                // Calculate summary stats
+                let bestCagr = { name: '--', value: 0 };
+                let bestSharpe = { name: '--', value: 0 };
+                let lowestDD = { name: '--', value: 100 };
+
+                strategyList.forEach(([name, s]) => {
+                    if (s.status === 'no_data') return;
+
+                    const metrics = s.metrics || {};
+
+                    // Parse CAGR
+                    let cagr = 0;
+                    const cagrStr = metrics.cagr || metrics.CAGR || '0';
+                    if (typeof cagrStr === 'string') {
+                        cagr = parseFloat(cagrStr.replace('%', ''));
+                    } else {
+                        cagr = parseFloat(cagrStr) * 100;
+                    }
+
+                    // Parse Sharpe
+                    let sharpe = parseFloat(metrics.sharpe_ratio || metrics['Sharpe Ratio'] || 0);
+
+                    // Parse Max Drawdown  
+                    let dd = 0;
+                    const ddStr = metrics.max_drawdown || metrics['Max Drawdown'] || '0';
+                    if (typeof ddStr === 'string') {
+                        dd = Math.abs(parseFloat(ddStr.replace('%', '')));
+                    } else {
+                        dd = Math.abs(parseFloat(ddStr) * 100);
+                    }
+
+                    if (cagr > bestCagr.value) {
+                        bestCagr = { name: name, value: cagr };
+                    }
+                    if (sharpe > bestSharpe.value) {
+                        bestSharpe = { name: name, value: sharpe };
+                    }
+                    if (dd > 0 && dd < lowestDD.value) {
+                        lowestDD = { name: name, value: dd };
+                    }
+                });
+
+                // Update stat cards
+                document.getElementById('bestStrategy').textContent = bestSharpe.name;
+                document.getElementById('highestCagr').textContent = `${bestCagr.value.toFixed(2)}%`;
+                document.getElementById('bestSharpe').textContent = bestSharpe.value.toFixed(3);
+                document.getElementById('lowestDD').textContent = `${lowestDD.value.toFixed(2)}%`;
+                document.getElementById('strategyCount').textContent = strategyList.filter(([, s]) => s.status !== 'no_data').length;
+
+                // Update comparison table
+                const tbody = document.getElementById('comparisonBody');
+                tbody.innerHTML = strategyList.map(([name, s]) => {
+                    if (s.status === 'no_data') {
+                        return `<tr><td class="strategy-name">${name}</td><td colspan="7">No data - run backtest</td></tr>`;
+                    }
+                    const m = s.metrics || {};
+                    return `
+                        <tr>
+                            <td class="strategy-name">${name}</td>
+                            <td>$${(s.final_value || 0).toLocaleString()}</td>
+                            <td>${m.cagr || m.CAGR || '--'}</td>
+                            <td>${m.sharpe_ratio || m['Sharpe Ratio'] || '--'}</td>
+                            <td>${m.sortino_ratio || m['Sortino Ratio'] || '--'}</td>
+                            <td>${m.max_drawdown || m['Max Drawdown'] || '--'}</td>
+                            <td>${m.calmar_ratio || m['Calmar Ratio'] || '--'}</td>
+                            <td>${m.win_rate || m['Win Rate'] || '--'}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Update strategy cards
+                const container = document.getElementById('strategyCards');
+                container.innerHTML = strategyList.map(([name, s]) => {
+                    if (s.status === 'no_data') {
+                        return `
+                            <div class="strategy-card">
+                                <div class="strategy-header">
+                                    <span class="strategy-card-name">${name}</span>
+                                    <span class="strategy-badge badge-momentum">No Data</span>
+                                </div>
+                                <p style="color: var(--text-secondary);">Run backtest to generate data</p>
+                            </div>
+                        `;
+                    }
+                    const m = s.metrics || {};
+                    const badgeClass = name.includes('Momentum') ? 'badge-momentum' :
+                        name.includes('HRP') ? 'badge-hrp' : 'badge-dual';
+                    return `
+                        <div class="strategy-card">
+                            <div class="strategy-header">
+                                <span class="strategy-card-name">${name}</span>
+                                <span class="strategy-badge ${badgeClass}">Active</span>
+                            </div>
+                            <div class="strategy-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">CAGR</span>
+                                    <span class="metric-value">${m.cagr || m.CAGR || '--'}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Sharpe</span>
+                                    <span class="metric-value">${m.sharpe_ratio || m['Sharpe Ratio'] || '--'}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Volatility</span>
+                                    <span class="metric-value">${m.volatility || m.Volatility || '--'}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Max DD</span>
+                                    <span class="metric-value">${m.max_drawdown || m['Max Drawdown'] || '--'}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Win Rate</span>
+                                    <span class="metric-value">${m.win_rate || m['Win Rate'] || '--'}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Final Value</span>
+                                    <span class="metric-value">$${(s.final_value || 0).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                document.getElementById('comparisonBody').innerHTML =
+                    `<tr><td colspan="8">Error loading data: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+        // Refresh every 5 min
+        setInterval(loadDashboardData, 300000);
+    </script>
+</body>
+
+</html>

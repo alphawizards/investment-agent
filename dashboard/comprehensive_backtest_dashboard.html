@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Backtest Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --accent: #00d4ff;
+            --accent-alt: #7b68ee;
+            --success: #00ff88;
+            --danger: #ff4466;
+            --warning: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        main {
+            padding: 30px 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Summary Banner */
+        .summary-banner {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .summary-value.success {
+            color: var(--success);
+        }
+
+        .summary-value.warning {
+            color: var(--warning);
+        }
+
+        /* Strategy Cards */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .strategy-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .strategy-card.success {
+            border-color: var(--success);
+        }
+
+        .strategy-card.failed {
+            border-color: var(--danger);
+            opacity: 0.6;
+        }
+
+        .strategy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+
+        .strategy-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.success {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.failed {
+            background: rgba(255, 68, 102, 0.2);
+            color: var(--danger);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        .metric-value.positive {
+            color: var(--success);
+        }
+
+        .metric-value.negative {
+            color: var(--danger);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-title">Comprehensive Backtest Results</div>
+        <div class="header-subtitle" id="subtitle">Loading backtest data...</div>
+    </header>
+
+    <main>
+        <!-- Summary Banner -->
+        <div class="summary-banner">
+            <div class="summary-item">
+                <div class="summary-label">Total Strategies</div>
+                <div class="summary-value" id="totalStrategies">5</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Successful</div>
+                <div class="summary-value success" id="successfulStrategies">0</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Failed</div>
+                <div class="summary-value warning" id="failedStrategies">0</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Current Regime</div>
+                <div class="summary-value" id="currentRegime">--</div>
+            </div>
+        </div>
+
+        <!-- Strategy Results -->
+        <h2 class="section-title">Strategy Performance</h2>
+        <div class="strategy-grid" id="strategyCards">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Detailed Table -->
+        <h2 class="section-title">Detailed Metrics</h2>
+        <table id="metricsTable">
+            <thead>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Status</th>
+                    <th>CAGR</th>
+                    <th>Sharpe Ratio</th>
+                    <th>Max Drawdown</th>
+                    <th>Total Trades</th>
+                </tr>
+            </thead>
+            <tbody id="metricsBody">
+                <!-- Will be populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="timestamp" id="timestamp"></div>
+    </main>
+
+    <script>
+        async function loadBacktestData() {
+            try {
+                const response = await fetch('data/comprehensive_backtest.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load data');
+                }
+                const data = await response.json();
+                populateDashboard(data);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('subtitle').textContent = 'Error loading backtest data';
+            }
+        }
+
+        function populateDashboard(data) {
+            // Update subtitle
+            const genDate = new Date(data.generated_at);
+            document.getElementById('subtitle').textContent =
+                `Generated: ${genDate.toLocaleString()} | Source: ${data.source_file}`;
+
+            // Count successful/failed
+            const strategies = data.strategies;
+            const strategyKeys = Object.keys(strategies);
+            let successful = 0;
+            let failed = 0;
+
+            const strategyCards = document.getElementById('strategyCards');
+            const metricsBody = document.getElementById('metricsBody');
+
+            strategyCards.innerHTML = '';
+            metricsBody.innerHTML = '';
+
+            // Strategy details
+            const strategyInfo = {
+                'quallamaggie': {
+                    name: 'Quallamaggie',
+                    desc: 'Swing Trading Momentum',
+                    color: '#7b68ee'
+                },
+                'quallamaggie_metalabeling': {
+                    name: 'Quallamaggie + Meta-Labeling',
+                    desc: 'ML-Enhanced Quall amazie',
+                    color: '#00d4ff'
+                },
+                'hmm_regime': {
+                    name: 'HMM Regime Detection',
+                    desc: 'Market State Classification',
+                    color: '#ffaa00'
+                },
+                'nco_optimization': {
+                    name: 'NCO Portfolio Optimization',
+                    desc: 'Nested Clustered Optimization',
+                    color: '#00ff88'
+                },
+                'residual_momentum': {
+                    name: 'Residual Momentum',
+                    desc: 'Factor-Neutral Momentum',
+                    color: '#ff4466'
+                }
+            };
+
+            strategyKeys.forEach(key => {
+                const result = strategies[key];
+                const info = strategyInfo[key] || { name: key, desc: 'Unknown', color: '#666' };
+
+                const hasData = result && Object.keys(result).length > 0;
+                const isSuccess = hasData && !result.error;
+
+                if (isSuccess) successful++;
+                else failed++;
+
+                // Create card
+                const card = document.createElement('div');
+                card.className = `strategy-card ${isSuccess ? 'success' : 'failed'}`;
+
+                let metricsHTML = '';
+                if (key === 'quallamaggie' && result.cagr !== undefined) {
+                    metricsHTML = `
+                        <div class="metric">
+                            <span class="metric-label">CAGR</span>
+                            <span class="metric-value ${result.cagr > 0 ? 'positive' : 'negative'}">
+                                ${(result.cagr * 100).toFixed(2)}%
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Sharpe Ratio</span>
+                            <span class="metric-value">${result.sharpe.toFixed(2)}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Max Drawdown</span>
+                            <span class="metric-value negative">${(result.max_drawdown * 100).toFixed(2)}%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Total Trades</span>
+                            <span class="metric-value">${result.total_trades}</span>
+                        </div>
+                    `;
+                } else if (key === 'hmm_regime' && result.current_regime) {
+                    metricsHTML = `
+                        <div class="metric">
+                            <span class="metric-label">Current Regime</span>
+                            <span class="metric-value positive">${result.current_regime}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Method</span>
+                            <span class="metric-value">${result.method}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Status</span>
+                            <span class="metric-value positive">Active</span>
+                        </div>
+                    `;
+
+                    // Update current regime in banner
+                    document.getElementById('currentRegime').textContent = result.current_regime;
+                } else {
+                    metricsHTML = `
+                        <div class="metric">
+                            <span class="metric-label">Status</span>
+                            <span class="metric-value negative">Not Available</span>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="strategy-header">
+                        <div>
+                            <div class="strategy-name">${info.name}</div>
+                            <div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+                                ${info.desc}
+                            </div>
+                        </div>
+                        <span class="status-badge ${isSuccess ? 'success' : 'failed'}">
+                            ${isSuccess ? 'Success' : 'Failed'}
+                        </span>
+                    </div>
+                    <div class="metrics">
+                        ${metricsHTML}
+                    </div>
+                `;
+
+                strategyCards.appendChild(card);
+
+                // Add to table
+                const row = document.createElement('tr');
+                if (key === 'quallamaggie' && result.cagr !== undefined) {
+                    row.innerHTML = `
+                        <td>${info.name}</td>
+                        <td><span class="status-badge success">Success</span></td>
+                        <td style="color: var(--success)">${(result.cagr * 100).toFixed(2)}%</td>
+                        <td>${result.sharpe.toFixed(2)}</td>
+                        <td style="color: var(--danger)">${(result.max_drawdown * 100).toFixed(2)}%</td>
+                        <td>${result.total_trades}</td>
+                    `;
+                } else if (isSuccess) {
+                    row.innerHTML = `
+                        <td>${info.name}</td>
+                        <td><span class="status-badge success">Success</span></td>
+                        <td colspan="4" style="color: var(--text-secondary)">See strategy card for details</td>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <td>${info.name}</td>
+                        <td><span class="status-badge failed">Failed</span></td>
+                        <td colspan="4" style="color: var(--text-secondary)">No data available</td>
+                    `;
+                }
+                metricsBody.appendChild(row);
+            });
+
+            // Update summary
+            document.getElementById('totalStrategies').textContent = strategyKeys.length;
+            document.getElementById('successfulStrategies').textContent = successful;
+            document.getElementById('failedStrategies').textContent = failed;
+            document.getElementById('timestamp').textContent =
+                `Last Updated: ${new Date().toLocaleString()}`;
+        }
+
+        // Load data on page load
+        loadBacktestData();
+    </script>
+</body>
+
+</html>

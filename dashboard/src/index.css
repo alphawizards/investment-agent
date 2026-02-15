@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  @apply bg-gray-100 text-gray-900;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Profit/Loss colors */
+.text-profit {
+  @apply text-green-600;
+}
+
+.text-loss {
+  @apply text-red-600;
+}
+
+.text-neutral {
+  @apply text-gray-600;
+}
+
+.bg-profit-light {
+  @apply bg-green-50;
+}
+
+.bg-loss-light {
+  @apply bg-red-50;
+}
+
+.bg-neutral-light {
+  @apply bg-gray-50;
+}
+
+/* Table styles */
+.trade-table th {
+  @apply sticky top-0 bg-gray-50 z-10;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Font mono for numbers */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Card hover effect */
+.card-hover {
+  @apply transition-shadow duration-200;
+}
+
+.card-hover:hover {
+  @apply shadow-md;
+}

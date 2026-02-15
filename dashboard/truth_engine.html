@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth Engine | Strategy Validation</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--bg-primary);
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .dsr-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .dsr-valid {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .dsr-caution {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .dsr-overfit {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .psr-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .psr-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .row-dimmed {
+            opacity: 0.5;
+        }
+
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sortable:hover {
+            color: #10b981;
+        }
+
+        .sortable::after {
+            content: ' ⇅';
+            opacity: 0.4;
+            font-size: 10px;
+        }
+
+        .sortable.asc::after {
+            content: ' ↑';
+            opacity: 1;
+        }
+
+        .sortable.desc::after {
+            content: ' ↓';
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="text-slate-100">
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-lg border-b border-slate-800 px-6 py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-xl">
+                    🛡️
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">Truth Engine</h1>
+                    <p class="text-xs text-slate-500">Statistical Validity Dashboard • DSR/PSR Metrics</p>
+                </div>
+            </div>
+            <nav class="flex items-center gap-6 text-sm">
+                <a href="index.html" class="text-slate-400 hover:text-white transition-colors">Dashboard</a>
+                <a href="quant2_dashboard.html" class="text-slate-400 hover:text-white transition-colors">Quant 2.0</a>
+                <span class="text-emerald-400 font-semibold">Truth Engine</span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 space-y-8">
+        <!-- Summary Stats -->
+        <section class="grid grid-cols-6 gap-4" id="summary-stats">
+            <div class="glass-card rounded-xl p-4">
+                <div class="flex items-center gap-2 text-slate-500 text-xs mb-2">📊 STRATEGIES</div>
+                <div class="text-2xl font-bold text-slate-100" id="stat-total">5</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border-emerald-500/30">
+                <div class="flex items-center gap-2 text-emerald-400 text-xs mb-2">✓ SIGNIFICANT</div>
+                <div class="text-2xl font-bold text-emerald-400" id="stat-significant">2</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border-red-500/30">
+                <div class="flex items-center gap-2 text-red-400 text-xs mb-2">✗ REJECTED</div>
+                <div class="text-2xl font-bold text-red-400" id="stat-rejected">3</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border-cyan-500/30">
+                <div class="flex items-center gap-2 text-cyan-400 text-xs mb-2">🛡️ AVG DSR</div>
+                <div class="text-2xl font-bold text-cyan-400" id="stat-dsr">0.97</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border-violet-500/30">
+                <div class="flex items-center gap-2 text-violet-400 text-xs mb-2">📈 AVG PSR</div>
+                <div class="text-2xl font-bold text-violet-400" id="stat-psr">91.0%</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border-amber-500/30">
+                <div class="flex items-center gap-2 text-amber-400 text-xs mb-2">⚰️ GRAVEYARD</div>
+                <div class="text-2xl font-bold text-amber-400" id="stat-trials">340</div>
+            </div>
+        </section>
+
+        <!-- Alpha Matrix Table -->
+        <section class="glass-card rounded-2xl overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <span class="text-emerald-400">α</span> Strategy Matrix
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">Statistical validity metrics • Gray rows: PSR &lt; 95%</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full" id="alpha-matrix">
+                    <thead class="bg-slate-800/50 text-xs uppercase text-slate-400">
+                        <tr>
+                            <th class="px-4 py-3 text-left sortable" data-sort="name">Strategy</th>
+                            <th class="px-4 py-3 text-left sortable desc" data-sort="dsr">DSR</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="psr">PSR</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="sharpe">Sharpe</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="sortino">Sortino</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="maxdd">Max DD</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="trials">⚰️ Trials</th>
+                            <th class="px-4 py-3 text-left sortable" data-sort="cagr">CAGR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrix-body" class="divide-y divide-slate-800">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Charts Row -->
+        <section class="grid grid-cols-2 gap-6">
+            <!-- Score Distribution -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-lg font-semibold mb-4">DSR Score Distribution</h3>
+                <canvas id="dsr-chart" height="200"></canvas>
+            </div>
+            <!-- PSR Distribution -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-lg font-semibold mb-4">PSR Confidence Levels</h3>
+                <canvas id="psr-chart" height="200"></canvas>
+            </div>
+        </section>
+
+        <!-- Graveyard Visualization -->
+        <section class="glass-card rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-lg font-semibold flex items-center gap-2">⚰️ The Graveyard</h3>
+                    <p class="text-sm text-slate-500">Total trials tested per strategy (higher = more overfitting risk)
+                    </p>
+                </div>
+            </div>
+            <canvas id="graveyard-chart" height="120"></canvas>
+        </section>
+    </main>
+
+    <script>
+        // === MOCK STRATEGY DATA ===
+        const STRATEGIES = [
+            {
+                id: 'momentum-alpha',
+                name: 'Residual Momentum Alpha',
+                dsr: 1.24,
+                psr: 0.97,
+                sharpe: 1.45,
+                sortino: 2.1,
+                maxdd: -0.14,
+                cagr: 0.18,
+                trials: 15,
+                isSignificant: true
+            },
+            {
+                id: 'hmm-regime',
+                name: 'HMM Regime Allocation',
+                dsr: 0.78,
+                psr: 0.94,
+                sharpe: 1.12,
+                sortino: 1.6,
+                maxdd: -0.18,
+                cagr: 0.15,
+                trials: 48,
+                isSignificant: false
+            },
+            {
+                id: 'stat-arb',
+                name: 'Statistical Arbitrage Pairs',
+                dsr: 1.65,
+                psr: 0.99,
+                sharpe: 1.92,
+                sortino: 2.8,
+                maxdd: -0.08,
+                cagr: 0.22,
+                trials: 8,
+                isSignificant: true
+            },
+            {
+                id: 'ml-predictor',
+                name: 'ML Return Predictor',
+                dsr: 0.32,
+                psr: 0.82,
+                sharpe: 1.18,
+                sortino: 1.4,
+                maxdd: -0.25,
+                cagr: 0.28,
+                trials: 247,
+                isSignificant: false
+            },
+            {
+                id: 'dual-momentum',
+                name: 'Dual Momentum ETF',
+                dsr: 0.85,
+                psr: 0.91,
+                sharpe: 0.95,
+                sortino: 1.3,
+                maxdd: -0.16,
+                cagr: 0.12,
+                trials: 22,
+                isSignificant: false
+            }
+        ];
+
+        // === RENDER TABLE ===
+        function renderTable(data) {
+            const tbody = document.getElementById('matrix-body');
+            tbody.innerHTML = data.map(s => {
+                const dsrClass = s.dsr >= 1.0 ? 'dsr-valid' : s.dsr >= 0.5 ? 'dsr-caution' : 'dsr-overfit';
+                const dsrLabel = s.dsr >= 1.0 ? '✓ VALID' : s.dsr >= 0.5 ? '⚠ CAUTION' : '✗ OVERFIT';
+                const rowClass = s.psr < 0.95 ? 'row-dimmed' : '';
+                const psrColor = s.psr >= 0.95 ? '#10b981' : '#64748b';
+                const trialClass = s.trials > 100 ? 'text-red-400' : s.trials > 50 ? 'text-amber-400' : 'text-slate-400';
+
+                return `
+                    <tr class="${rowClass} hover:bg-slate-800/30 transition-colors">
+                        <td class="px-4 py-4 font-semibold">${s.name}</td>
+                        <td class="px-4 py-4">
+                            <span class="dsr-badge ${dsrClass}">${s.dsr.toFixed(2)} ${dsrLabel}</span>
+                        </td>
+                        <td class="px-4 py-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-16 psr-bar">
+                                    <div class="psr-fill" style="width: ${s.psr * 100}%; background: ${psrColor}"></div>
+                                </div>
+                                <span class="text-sm font-mono" style="color: ${psrColor}">${(s.psr * 100).toFixed(1)}%</span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-4 font-mono ${s.sharpe >= 1.5 ? 'text-emerald-400' : 'text-slate-300'}">${s.sharpe.toFixed(2)}</td>
+                        <td class="px-4 py-4 font-mono text-slate-300">${s.sortino.toFixed(2)}</td>
+                        <td class="px-4 py-4 font-mono ${s.maxdd < -0.2 ? 'text-red-400' : 'text-slate-300'}">${(s.maxdd * 100).toFixed(1)}%</td>
+                        <td class="px-4 py-4">
+                            <span class="font-mono ${trialClass}">⚰️ ${s.trials}</span>
+                        </td>
+                        <td class="px-4 py-4 font-mono font-semibold ${s.cagr > 0.15 ? 'text-emerald-400' : 'text-slate-300'}">${(s.cagr * 100).toFixed(1)}%</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // === SORTING ===
+        let currentSort = { col: 'dsr', dir: 'desc' };
+
+        document.querySelectorAll('.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const col = th.dataset.sort;
+                if (currentSort.col === col) {
+                    currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+                } else {
+                    currentSort = { col, dir: 'desc' };
+                }
+
+                document.querySelectorAll('.sortable').forEach(h => h.classList.remove('asc', 'desc'));
+                th.classList.add(currentSort.dir);
+
+                const sorted = [...STRATEGIES].sort((a, b) => {
+                    let va = a[col], vb = b[col];
+                    if (col === 'name') return currentSort.dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+                    return currentSort.dir === 'asc' ? va - vb : vb - va;
+                });
+                renderTable(sorted);
+            });
+        });
+
+        // === UPDATE STATS ===
+        function updateStats() {
+            const sig = STRATEGIES.filter(s => s.isSignificant).length;
+            const avgDSR = (STRATEGIES.reduce((sum, s) => sum + s.dsr, 0) / STRATEGIES.length).toFixed(2);
+            const avgPSR = (STRATEGIES.reduce((sum, s) => sum + s.psr, 0) / STRATEGIES.length * 100).toFixed(1);
+            const totalTrials = STRATEGIES.reduce((sum, s) => sum + s.trials, 0);
+
+            document.getElementById('stat-total').textContent = STRATEGIES.length;
+            document.getElementById('stat-significant').textContent = sig;
+            document.getElementById('stat-rejected').textContent = STRATEGIES.length - sig;
+            document.getElementById('stat-dsr').textContent = avgDSR;
+            document.getElementById('stat-psr').textContent = avgPSR + '%';
+            document.getElementById('stat-trials').textContent = totalTrials;
+        }
+
+        // === CHARTS ===
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = '#334155';
+
+        function renderCharts() {
+            // DSR Distribution
+            new Chart(document.getElementById('dsr-chart'), {
+                type: 'bar',
+                data: {
+                    labels: STRATEGIES.map(s => s.name.split(' ')[0]),
+                    datasets: [{
+                        label: 'DSR Score',
+                        data: STRATEGIES.map(s => s.dsr),
+                        backgroundColor: STRATEGIES.map(s =>
+                            s.dsr >= 1.0 ? 'rgba(16, 185, 129, 0.6)' :
+                                s.dsr >= 0.5 ? 'rgba(245, 158, 11, 0.6)' : 'rgba(239, 68, 68, 0.6)'
+                        ),
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#1e293b' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // PSR Confidence
+            new Chart(document.getElementById('psr-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['≥95% (Significant)', '<95% (Not Significant)'],
+                    datasets: [{
+                        data: [
+                            STRATEGIES.filter(s => s.psr >= 0.95).length,
+                            STRATEGIES.filter(s => s.psr < 0.95).length
+                        ],
+                        backgroundColor: ['rgba(16, 185, 129, 0.7)', 'rgba(100, 116, 139, 0.5)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Graveyard
+            new Chart(document.getElementById('graveyard-chart'), {
+                type: 'bar',
+                data: {
+                    labels: STRATEGIES.map(s => s.name),
+                    datasets: [{
+                        label: 'Trials Tested',
+                        data: STRATEGIES.map(s => s.trials),
+                        backgroundColor: STRATEGIES.map(s =>
+                            s.trials > 100 ? 'rgba(239, 68, 68, 0.6)' :
+                                s.trials > 50 ? 'rgba(245, 158, 11, 0.6)' : 'rgba(100, 116, 139, 0.4)'
+                        ),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#1e293b' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // === INIT ===
+        const sorted = [...STRATEGIES].sort((a, b) => b.dsr - a.dsr);
+        renderTable(sorted);
+        updateStats();
+        renderCharts();
+    </script>
+</body>
+
+</html>

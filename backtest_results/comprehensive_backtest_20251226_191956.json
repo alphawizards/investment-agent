@@ -1,0 +1,8 @@
+{
+  "hmm_regime": {
+    "strategy": "HMM Regime Detection",
+    "current_regime": "BULL",
+    "method": "VOLATILITY_FALLBACK",
+    "regime_stats": {}
+  }
+}

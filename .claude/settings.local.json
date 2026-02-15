@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr list:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: add comprehensive security and API enhancements\n\n- Add JWT authentication configuration with production validation\n- Implement rate limiting middleware with slowapi\n- Add structured error handling with custom exceptions\n- Create auth dependencies for JWT validation\n- Add Pydantic schemas for strategy parameters validation\n- Enhance router error handling across all endpoints\n- Add comprehensive router tests \\(data, strategies, trades\\)\n- Update CI workflow with additional security checks\n- Add production secret validation in config\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(npx wrangler pages deploy:*)",
+      "Bash(git commit:*)",
+      "Bash(curl -s \"https://api.cloudflare.com/client/v4/user/tokens/verify\" -H \"Authorization: Bearer He8UXOzv1tTSUPX-c3CVUQ31H35omgARCp8ja-hS\")",
+      "Bash(npx wrangler pages project create potential-parakeet --production-branch=main)",
+      "Bash(git checkout:*)",
+      "Bash(git pull:*)"
+    ]
+  }
+}

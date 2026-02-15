@@ -1,0 +1,27 @@
+{
+  "name": "potential-parakeet-1",
+  "version": "1.0.0",
+  "description": "A comprehensive quantitative investing framework implementing **Dual Momentum + Hierarchical Risk Parity (HRP)** strategies plus advanced **Quant 2.0** systematic approaches, optimized for Australian investors using Stake.com and ASX-listed ETFs.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alphawizards/potential-parakeet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/alphawizards/potential-parakeet/issues"
+  },
+  "homepage": "https://github.com/alphawizards/potential-parakeet#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}

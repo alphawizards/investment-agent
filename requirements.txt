@@ -1,0 +1,97 @@
+# Quantitative Global Investing Strategy
+# Requirements for Australian Retail Investors
+
+# ============== BACKEND API ==============
+# FastAPI & Server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+mangum>=0.17.0  # AWS Lambda adapter for FastAPI
+PyJWT>=2.8.0  # JWT token encoding/decoding for authentication
+
+# Database
+sqlalchemy>=2.0.0
+asyncpg>=0.29.0  # Async PostgreSQL driver for SQLAlchemy
+aiosqlite>=0.19.0  # Async SQLite driver for local development
+psycopg2-binary>=2.9.9  # PostgreSQL adapter (for sync operations if needed)
+alembic>=1.13.0  # Database migration tool
+
+# AWS SDK for Python
+boto3>=1.34.0  # AWS SDK for S3, Secrets Manager, etc.
+aioboto3>=12.3.0  # Async boto3 for Lambda
+aws-lambda-powertools>=2.31.0  # Structured logging, tracing, metrics for Lambda
+
+# HTTP Client (async)
+httpx>=0.26.0  # Async HTTP client (replaces requests)
+
+# ============== QUANT STRATEGY ==============
+# Data Ingestion
+yfinance>=0.2.36
+norgatedata>=1.0.0  # Premium ASX data (optional - falls back to yfinance)
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Technical Analysis
+pandas_ta>=0.4.67b0
+
+# Portfolio Optimization (CRITICAL)
+riskfolio-lib>=6.0.0
+
+# High-Performance Backtesting
+vectorbt>=0.26.0
+
+# Hyperparameter Optimization
+optuna>=3.0.0
+
+# Parquet Data Caching
+pyarrow>=14.0.0
+
+# Statistical Analysis
+scipy>=1.10.0
+statsmodels>=0.14.0
+
+# ============== QUANT 2.0 ENHANCEMENTS ==============
+# Hidden Markov Model for Regime Detection
+hmmlearn>=0.3.0
+
+# Kalman Filter for Dynamic Hedge Ratios
+filterpy>=1.4.5
+
+# Fama-French Factor Data from Ken French Library
+pandas-datareader>=0.10.0
+
+# ML: DBSCAN, PCA, Random Forest (explicit pin for stability)
+scikit-learn>=1.3.0
+
+# Utilities
+python-dateutil>=2.8.0
+pytz>=2023.3
+
+# Optional: Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# Optional: Jupyter Support
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.12.0
+
+# Rate Limiting
+slowapi>=0.1.8
+
+# Structured Logging
+structlog>=24.0.0
+
+# Linting (dev)
+ruff>=0.8.0
+pre-commit>=4.0.0
+
+# Security (dev)
+bandit>=1.7.0
+safety>=2.3.0
