@@ -8,17 +8,61 @@ High-performance data loader with caching and parallel processing.
 import pandas as pd
 import yfinance as yf
 from tiingo import TiingoClient
-from typing import List, Optional, Dict, Union, Any
+from typing import List, Optional, Dict, Union, Any, Callable
 from datetime import datetime
 import os
+import time
+import functools
+import logging
 from pathlib import Path
 from strategy.config import CONFIG
 
+logger = logging.getLogger(__name__)
+
+
 class RetryConfig:
     """Retry configuration for API calls."""
-    def __init__(self, max_retries: int = 3, delay: int = 1):
+    def __init__(self, max_retries: int = 3, base_delay: float = 1.0, max_delay: float = 30.0):
         self.max_retries = max_retries
-        self.delay = delay
+        self.base_delay = base_delay
+        self.max_delay = max_delay
+
+
+def retry_api_call(config: RetryConfig = None):
+    """
+    Decorator for retrying API calls with exponential backoff.
+
+    Retries on network/API errors with delays: 1s, 2s, 4s, 8s, ...
+    Capped at config.max_delay seconds.
+    """
+    if config is None:
+        config = RetryConfig()
+
+    def decorator(func: Callable):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(config.max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except (ConnectionError, TimeoutError, OSError) as e:
+                    last_exception = e
+                    if attempt < config.max_retries:
+                        delay = min(config.base_delay * (2 ** attempt), config.max_delay)
+                        logger.warning(
+                            f"Retry {attempt + 1}/{config.max_retries} for {func.__name__}: {e}. "
+                            f"Waiting {delay:.1f}s..."
+                        )
+                        time.sleep(delay)
+                except Exception as e:
+                    # Non-retryable errors (e.g. bad ticker, auth failure)
+                    raise
+            raise last_exception
+        return wrapper
+    return decorator
+
+
+_default_retry = RetryConfig(max_retries=3, base_delay=1.0, max_delay=30.0)
 
 class FastDataLoader:
     """
@@ -47,6 +91,20 @@ class FastDataLoader:
         if self.tiingo_api_token:
             config = {'session': True, 'api_key': self.tiingo_api_token}
             self.client = TiingoClient(config)
+
+        self._retry_config = _default_retry
+
+    @staticmethod
+    @retry_api_call()
+    def _yf_download(**kwargs) -> pd.DataFrame:
+        """yFinance download with retry."""
+        return yf.download(**kwargs)
+
+    @staticmethod
+    @retry_api_call()
+    def _tiingo_get_dataframe(client, **kwargs) -> pd.DataFrame:
+        """Tiingo get_dataframe with retry."""
+        return client.get_dataframe(**kwargs)
 
     def fetch_prices_fast(self, tickers: List[str], use_cache: bool = True) -> Dict[str, pd.DataFrame]:
         """
@@ -125,8 +183,8 @@ class FastDataLoader:
             for ticker, last_date in tickers_to_fetch_delta.items():
                 try:
                     # Fetch from last_date to today
-                    delta_df = yf.download(
-                        ticker,
+                    delta_df = self._yf_download(
+                        tickers=ticker,
                         start=last_date,
                         end=datetime.now().strftime('%Y-%m-%d'),
                         progress=False,
@@ -161,8 +219,9 @@ class FastDataLoader:
                         print(f"Fetching {len(missing_tickers)} new tickers from Tiingo...")
 
                     # Fetch both adjClose and adjOpen
-                    tiingo_df = self.client.get_dataframe(
-                        missing_tickers,
+                    tiingo_df = self._tiingo_get_dataframe(
+                        self.client,
+                        tickers=missing_tickers,
                         metric_name=['adjClose', 'adjOpen'],
                         startDate=self.start_date,
                         endDate=self.end_date,
@@ -207,8 +266,8 @@ class FastDataLoader:
             if self.verbose:
                 print(f"Fetching {len(still_missing)} tickers from yFinance (Backup)...")
 
-            yf_data = yf.download(
-                still_missing,
+            yf_data = self._yf_download(
+                tickers=still_missing,
                 start=self.start_date,
                 end=self.end_date,
                 progress=self.verbose,
