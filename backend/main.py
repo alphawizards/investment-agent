@@ -163,11 +163,13 @@ app.include_router(universes_router)
 app.include_router(quant2_router)
 app.include_router(validation_router)
 
-# Mount static files for dashboard
-dashboard_path = _app_dir / "dashboard"
-if dashboard_path.exists():
-    app.mount("/dashboard", StaticFiles(directory=str(dashboard_path), html=True), name="dashboard")
-    print(f"[OK] Dashboard mounted at /dashboard from {dashboard_path}")
+# Mount production dashboard build
+dashboard_dist_path = _app_dir / "dashboard" / "dist"
+if dashboard_dist_path.exists():
+    app.mount("/dashboard", StaticFiles(directory=str(dashboard_dist_path), html=True), name="dashboard")
+    print(f"[OK] Dashboard mounted at /dashboard from {dashboard_dist_path}")
+else:
+    print(f"[!] Dashboard dist not found at {dashboard_dist_path} - run 'npm run build' in dashboard/")
 
 
 # Global exception handler
