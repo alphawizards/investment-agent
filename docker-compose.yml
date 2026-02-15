@@ -1,61 +1,31 @@
 # Quant Trading Platform - Docker Compose
-# Full stack: Backend API + Dashboard + Database
-
-version: '3.8'
+# Single-command startup: docker-compose up
 
 services:
   # =========================
-  # Backend API (FastAPI)
+  # Full Stack (API + Dashboard)
   # =========================
-  backend:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: quant-backend
+    container_name: quant-platform
     restart: unless-stopped
     ports:
       - "8000:8000"
     environment:
       - DATABASE_URL=sqlite:///./data/trades.db
       - TIINGO_API_KEY=${TIINGO_API_KEY:-}
-      - API_KEY=${API_KEY:-}
-      - CORS_ORIGINS=http://localhost:3000,http://localhost:8000,http://dashboard:80
+      - API_KEY=${API_KEY:-dev-key-change-me}
+      - CORS_ORIGINS=http://localhost:8000
       - PYTHONIOENCODING=utf-8
     volumes:
       - ./data:/app/data
       - ./cache:/app/cache
       - ./reports:/app/reports
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
-    networks:
-      - quant-network
-
-  # =========================
-  # Dashboard (Nginx Static)
-  # =========================
-  dashboard:
-    build:
-      context: ./dashboard
-      dockerfile: Dockerfile
-    container_name: quant-dashboard
-    restart: unless-stopped
-    ports:
-      - "3000:80"
-    depends_on:
-      backend:
-        condition: service_healthy
-    networks:
-      - quant-network
-
-networks:
-  quant-network:
-    driver: bridge
-
-# Optional: Named volumes for persistent data
-# volumes:
-#   quant-data:
-#   quant-cache:
+      start_period: 15s

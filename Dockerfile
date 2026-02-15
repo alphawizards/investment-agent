@@ -1,6 +1,25 @@
-# Quant Trading Dashboard - Backend Dockerfile
-# Production-ready image with FastAPI
+# Quant Trading Platform - Multi-Stage Dockerfile
+# Stage 1: Build React Dashboard (Vite)
+# Stage 2: Python backend with built dashboard served by FastAPI
 
+# =============================================
+# Stage 1: Build React Dashboard
+# =============================================
+FROM node:20-slim AS dashboard-builder
+
+WORKDIR /dashboard
+
+# Install dependencies first (layer caching)
+COPY dashboard/package.json dashboard/package-lock.json* ./
+RUN npm ci --production=false
+
+# Copy dashboard source and build
+COPY dashboard/ ./
+RUN npm run build
+
+# =============================================
+# Stage 2: Python Backend + Dashboard
+# =============================================
 FROM python:3.12-slim
 
 # Create non-root user for security
@@ -23,6 +42,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY backend/ ./backend/
 COPY strategy/ ./strategy/
 
+# Copy built dashboard from Stage 1
+COPY --from=dashboard-builder /dashboard/dist/ ./dashboard/dist/
+
 # Create directories for data persistence
 RUN mkdir -p /app/data /app/cache /app/reports \
     && chown -R appuser:appgroup /app
@@ -38,10 +60,10 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:${PORT}/ || exit 1
+    CMD curl -f http://localhost:${PORT}/health || exit 1
 
 # Expose port
 EXPOSE ${PORT}
 
-# Run the application
+# Run the application - FastAPI serves both API and dashboard static files
 CMD ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

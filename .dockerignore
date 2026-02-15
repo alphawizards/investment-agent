@@ -43,7 +43,7 @@ cache/
 
 # Node
 node_modules/
-package*.json
+dashboard/node_modules/
 playwright.config.js
 playwright-report/
 
