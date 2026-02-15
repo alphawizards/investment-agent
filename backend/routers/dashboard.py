@@ -6,7 +6,7 @@ Refactored to support full async operations (2025 standard).
 """
 
 import sys
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 from pathlib import Path
@@ -16,12 +16,6 @@ import asyncio
 
 # Add parent path for strategy imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
-# Import authentication
-try:
-    from backend.auth import get_current_user
-except ImportError:
-    from auth import get_current_user
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
@@ -108,7 +102,7 @@ async def get_data_status() -> Dict[str, Any]:
 
 
 @router.get("/")
-async def get_dashboard_overview(user: dict = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_dashboard_overview() -> Dict[str, Any]:
     """
     Get main dashboard overview with all strategy metrics.
     """
@@ -364,7 +358,7 @@ async def get_backtest_dashboard() -> Dict[str, Any]:
 
 
 @router.get("/comparison")
-async def get_strategy_comparison(user: dict = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_strategy_comparison() -> Dict[str, Any]:
     """
     Get side-by-side strategy comparison.
     """
