@@ -51,7 +51,8 @@ class FastDataLoader:
     def fetch_prices_fast(self, tickers: List[str], use_cache: bool = True) -> Dict[str, pd.DataFrame]:
         """
         Fetch adjusted close and open prices for multiple tickers.
-        Uses caching to avoid re-fetching data.
+        Uses delta loading - only fetches missing dates for existing tickers.
+        New tickers get full history.
 
         Returns:
             Dict with keys 'close' and 'open', containing DataFrames.
@@ -76,88 +77,125 @@ class FastDataLoader:
             except Exception as e:
                 print(f"⚠️ Warning: Could not read cache: {e}")
 
-        # 2. Identify missing tickers
-        if not cached_close.empty and not cached_open.empty:
-            # Check which tickers are already in cache
-            available_tickers = [t for t in tickers if t in cached_close.columns and t in cached_open.columns]
-            missing_tickers = [t for t in tickers if t not in available_tickers]
-        else:
-            available_tickers = []
-            missing_tickers = tickers
+        # 2. Delta loading: Identify tickers needing updates vs new tickers
+        tickers_to_fetch_full = []  # New tickers - need full history
+        tickers_to_fetch_delta = {}  # Existing tickers - need delta (from last date)
 
-        if not missing_tickers:
+        if not cached_close.empty and not cached_open.empty:
+            for ticker in tickers:
+                if ticker in cached_close.columns and ticker in cached_open.columns:
+                    # Existing ticker - find last date in cache
+                    ticker_data = cached_close[ticker].dropna()
+                    if not ticker_data.empty:
+                        last_cached_date = ticker_data.index.max()
+                        # Only fetch if we have gaps (last cached < today)
+                        from datetime import timedelta
+                        today = datetime.now()
+                        if last_cached_date < today:
+                            tickers_to_fetch_delta[ticker] = last_cached_date.strftime('%Y-%m-%d')
+                    else:
+                        # Empty column, treat as new
+                        tickers_to_fetch_full.append(ticker)
+                else:
+                    # New ticker - need full history
+                    tickers_to_fetch_full.append(ticker)
+        else:
+            # No cache - all tickers are new
+            tickers_to_fetch_full = tickers
+
+        if not tickers_to_fetch_full and not tickers_to_fetch_delta:
             if self.verbose:
-                print("✅ All tickers found in cache")
+                print("✅ All tickers up to date in cache")
             return {
                 'close': cached_close[tickers],
                 'open': cached_open[tickers]
             }
 
         if self.verbose:
-            print(f"Incremental fetch: Downloading {len(missing_tickers)} missing tickers...")
+            print(f"Delta loading: {len(tickers_to_fetch_full)} new, {len(tickers_to_fetch_delta)} to update")
 
-        # 3. Fetch ONLY missing tickers
+        # 3b. Fetch delta for existing tickers (incremental updates)
+        delta_close = pd.DataFrame()
+        delta_open = pd.DataFrame()
+        
+        if tickers_to_fetch_delta:
+            if self.verbose:
+                print(f"Fetching delta updates for {len(tickers_to_fetch_delta)} existing tickers...")
+            
+            for ticker, last_date in tickers_to_fetch_delta.items():
+                try:
+                    # Fetch from last_date to today
+                    delta_df = yf.download(
+                        ticker,
+                        start=last_date,
+                        end=datetime.now().strftime('%Y-%m-%d'),
+                        progress=False,
+                        auto_adjust=True
+                    )
+                    if not delta_df.empty and 'Close' in delta_df.columns:
+                        delta_close[ticker] = delta_df['Close']
+                        delta_open[ticker] = delta_df['Open'] if 'Open' in delta_df.columns else delta_df['Close']
+                except Exception as e:
+                    if self.verbose:
+                        print(f"Delta fetch failed for {ticker}: {e}")
+            
+            if self.verbose and not delta_close.empty:
+                print(f"Delta updates: {len(delta_close.columns)} tickers updated")
+
+        # Process new tickers (full history)
+        missing_tickers = tickers_to_fetch_full
+        if missing_tickers:
+            if self.verbose:
+                print(f"Incremental fetch: Downloading {len(missing_tickers)} missing tickers (full history)...")
+
+        # 3. Fetch: New tickers get full history, existing tickers get delta
         new_close = pd.DataFrame()
         new_open = pd.DataFrame()
+        
+        # 3a. Fetch new tickers (full history)
+        if missing_tickers:
+            # Try Tiingo first (Primary)
+            if self.client:
+                try:
+                    if self.verbose:
+                        print(f"Fetching {len(missing_tickers)} new tickers from Tiingo...")
 
-        # Try Tiingo first (Primary)
-        if self.client:
-            try:
-                if self.verbose:
-                    print(f"Fetching from Tiingo...")
+                    # Fetch both adjClose and adjOpen
+                    tiingo_df = self.client.get_dataframe(
+                        missing_tickers,
+                        metric_name=['adjClose', 'adjOpen'],
+                        startDate=self.start_date,
+                        endDate=self.end_date,
+                        frequency='daily'
+                    )
 
-                # Fetch both adjClose and adjOpen
-                # We need to fetch full dataframe to get both
-                tiingo_df = self.client.get_dataframe(
-                    missing_tickers,
-                    metric_name=['adjClose', 'adjOpen'], # Request both metrics
-                    startDate=self.start_date,
-                    endDate=self.end_date,
-                    frequency='daily'
-                )
+                    if not tiingo_df.empty:
+                        if hasattr(tiingo_df.index, 'tz') and tiingo_df.index.tz is not None:
+                            tiingo_df.index = tiingo_df.index.tz_localize(None)
 
-                if not tiingo_df.empty:
-                    # Tiingo with multiple metrics usually returns MultiIndex columns: (Symbol, Metric) or (Metric, Symbol)
-                    # Let's inspect structure. Based on docs, if multiple tickers provided, it returns MultiIndex.
-                    # If flat, we need to restructure.
+                        # Handle MultiIndex
+                        if isinstance(tiingo_df.columns, pd.MultiIndex):
+                            try:
+                                levels = tiingo_df.columns.levels
+                                if 'adjClose' in levels[0] or 'adjClose' in levels[1]:
+                                    if 'adjClose' in levels[1]:  # (Symbol, Metric)
+                                        new_close = tiingo_df.xs('adjClose', axis=1, level=1)
+                                        new_open = tiingo_df.xs('adjOpen', axis=1, level=1)
+                                    else:  # (Metric, Symbol)
+                                        new_close = tiingo_df.xs('adjClose', axis=1, level=0)
+                                        new_open = tiingo_df.xs('adjOpen', axis=1, level=0)
+                            except Exception as inner_e:
+                                print(f"Tiingo multiindex parse error: {inner_e}")
+                        else:
+                            if len(missing_tickers) == 1:
+                                t = missing_tickers[0]
+                                if 'adjClose' in tiingo_df.columns:
+                                    new_close = tiingo_df[['adjClose']].rename(columns={'adjClose': t})
+                                if 'adjOpen' in tiingo_df.columns:
+                                    new_open = tiingo_df[['adjOpen']].rename(columns={'adjOpen': t})
 
-                    if hasattr(tiingo_df.index, 'tz') and tiingo_df.index.tz is not None:
-                         tiingo_df.index = tiingo_df.index.tz_localize(None)
-
-                    # Handle MultiIndex
-                    if isinstance(tiingo_df.columns, pd.MultiIndex):
-                        # Assume level 0 is Symbol, level 1 is Metric (or vice versa)
-                        # We need to standardize.
-                        # Usually Tiingo returns (Symbol, Metric)
-
-                        # Try to extract 'adjClose' and 'adjOpen'
-                        try:
-                            # Try xs assuming level 'metric' exists or is named
-                            # Often it's un-named levels.
-                            # Let's look at level values
-                            levels = tiingo_df.columns.levels
-                            if 'adjClose' in levels[0] or 'adjClose' in levels[1]:
-                                # Found metrics
-                                if 'adjClose' in levels[1]: # (Symbol, Metric)
-                                    new_close = tiingo_df.xs('adjClose', axis=1, level=1)
-                                    new_open = tiingo_df.xs('adjOpen', axis=1, level=1)
-                                else: # (Metric, Symbol)
-                                    new_close = tiingo_df.xs('adjClose', axis=1, level=0)
-                                    new_open = tiingo_df.xs('adjOpen', axis=1, level=0)
-                        except Exception as inner_e:
-                            print(f"Tiingo multiindex parse error: {inner_e}")
-                    else:
-                        # If single ticker or flattened
-                        # If single ticker, cols are ['adjClose', 'adjOpen', ...]
-                        if len(missing_tickers) == 1:
-                            t = missing_tickers[0]
-                            if 'adjClose' in tiingo_df.columns:
-                                new_close = tiingo_df[['adjClose']].rename(columns={'adjClose': t})
-                            if 'adjOpen' in tiingo_df.columns:
-                                new_open = tiingo_df[['adjOpen']].rename(columns={'adjOpen': t})
-
-            except Exception as e:
-                print(f"❌ Tiingo fetch failed: {e}")
+                except Exception as e:
+                    print(f"❌ Tiingo fetch failed: {e}")
 
         # Fallback to yFinance
         if new_close.empty:
@@ -225,23 +263,27 @@ class FastDataLoader:
                 print(f"yFinance parse error: {e}")
 
         # 4. Merge and save
+        # Priority: cached_close + delta_close (updates) + new_close (new tickers)
+        
+        final_close = cached_close.copy() if not cached_close.empty else pd.DataFrame()
+        final_open = cached_open.copy() if not cached_open.empty else pd.DataFrame()
+        
+        # 4a. Apply delta updates - use combine_first on entire DataFrame to expand index
+        if not delta_close.empty:
+            # Combine entire DataFrames so index expands to include new dates
+            final_close = final_close.combine_first(delta_close)
+            final_open = final_open.combine_first(delta_open)
+        
+        # 4b. Append new tickers (brand new tickers)
         if not new_close.empty:
-            if not cached_close.empty:
-                # Merge Close
-                common_index = cached_close.index.union(new_close.index).sort_values()
-                cached_close = cached_close.reindex(common_index)
-                new_close = new_close.reindex(common_index)
-                final_close = pd.concat([cached_close, new_close], axis=1)
-                final_close = final_close.loc[:, ~final_close.columns.duplicated()]
-
-                # Merge Open
-                cached_open = cached_open.reindex(common_index)
-                new_open = new_open.reindex(common_index)
-                final_open = pd.concat([cached_open, new_open], axis=1)
-                final_open = final_open.loc[:, ~final_open.columns.duplicated()]
-            else:
-                final_close = new_close
-                final_open = new_open
+            final_close = pd.concat([final_close, new_close], axis=1)
+            final_close = final_close.loc[:, ~final_close.columns.duplicated()]
+            
+            final_open = pd.concat([final_open, new_open], axis=1)
+            final_open = final_open.loc[:, ~final_open.columns.duplicated()]
+        
+        # Save to cache if we have any data
+        if not final_close.empty:
 
             # Save to cache
             if self.verbose:
