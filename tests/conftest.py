@@ -5,13 +5,19 @@ Shared fixtures for all tests.
 """
 
 import pytest
+import pytest_asyncio
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+from httpx import AsyncClient, ASGITransport
 
-from fastapi.testclient import TestClient
+import os
+
+# Set environment variable to use SQLite for tests
+os.environ["USE_NEON"] = "False"
+os.environ["DATABASE_URL"] = "sqlite:///./data/test_trades.db"
 
 
 # ============== Sample Data Fixtures ==============
@@ -22,7 +28,7 @@ def sample_prices():
     np.random.seed(42)
     dates = pd.date_range(start='2020-01-01', periods=500, freq='B')
     tickers = ['SPY', 'QQQ', 'TLT', 'GLD', 'VTI']
-    
+
     # Generate correlated random walks
     n = len(dates)
     data = {}
@@ -30,7 +36,7 @@ def sample_prices():
         returns = np.random.normal(0.0005, 0.015, n)
         prices = 100 * np.exp(np.cumsum(returns))
         data[ticker] = prices
-    
+
     return pd.DataFrame(data, index=dates)
 
 
@@ -50,35 +56,15 @@ def mock_yfinance(sample_prices):
         yield mock
 
 
-@pytest.fixture
-def mock_settings():
-    """Mock settings for testing."""
-    with patch('strategy.pipeline.config.settings') as mock:
-        mock.API_KEY = 'test-api-key'
-        mock.API_KEY_HASH = ''
-        mock.CORS_ORIGINS = 'http://localhost:3000'
-        mock.cors_origins_list = ['http://localhost:3000']
-        mock.USE_VECTORBT = True
-        mock.VECTORBT_TIMEOUT = 30
-        mock.RISK_FREE_RATE = 0.04
-        mock.RATE_LIMIT_DEFAULT = '100/minute'
-        mock.RATE_LIMIT_SCAN = '10/minute'
-        yield mock
+# ============== Async API Client Fixture ==============
 
-
-# ============== API Client Fixtures ==============
-
-@pytest.fixture
-def api_client(mock_settings):
-    """Create test client for API."""
-    from backend.dashboard_api import app
-    return TestClient(app)
-
-
-@pytest.fixture
-def auth_headers():
-    """Headers with valid API key."""
-    return {'X-API-Key': 'test-api-key'}
+@pytest_asyncio.fixture
+async def async_client():
+    """Async test client for API tests."""
+    from backend.main import app
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        yield client
 
 
 # ============== Pipeline Fixtures ==============
