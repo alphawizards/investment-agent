@@ -10,9 +10,17 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from datetime import datetime, timedelta
 import math
+import os
 
 from ..repositories.trade_repository import TradeRepository
 from ..database.models import Trade, TradeStatus
+
+# Import FastDataLoader for Mark-to-Market calculations
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "strategy"))
+from fast_data_loader import FastDataLoader
+
 from ..database.schemas import (
     TradeCreate, TradeUpdate, TradeResponse, TradeListResponse,
     PortfolioMetrics, DashboardSummary
@@ -109,24 +117,61 @@ class TradeService:
         initial_capital: float = 100000.0
     ) -> PortfolioMetrics:
         """
-        Calculate portfolio performance metrics.
+        Calculate portfolio performance metrics with Mark-to-Market (MtM) valuation.
+        Uses FastDataLoader to fetch current prices for open positions.
         """
         stats = await self.repository.get_statistics()
         
-        # Calculate portfolio value
-        total_pnl = stats['total_pnl']
-        total_value = initial_capital + total_pnl
-        
-        # Get open positions value
+        # Get open positions
         open_positions = await self.repository.get_open_positions()
-        invested_value = sum(
-            t.entry_price * t.quantity 
-            for t in open_positions
-        )
         
-        cash_balance = total_value - invested_value
+        # === Mark-to-Market Calculation ===
+        unrealized_pnl = 0.0
+        current_market_value = 0.0
         
-        # Calculate returns
+        if open_positions:
+            # Get unique tickers from open positions
+            tickers = list(set(t.ticker for t in open_positions))
+            
+            try:
+                # Initialize FastDataLoader to get current prices
+                data_loader = FastDataLoader(
+                    cache_dir=Path("cache"),
+                    use_tiingo=os.getenv("TIINGO_API_KEY") is not None,
+                    use_yfinance=True,
+                    verbose=False
+                )
+                
+                # Fetch latest prices (delta loading will get most recent)
+                price_data = data_loader.fetch_prices_fast(tickers, use_cache=True)
+                
+                if 'close' in price_data and not price_data['close'].empty:
+                    close_prices = price_data['close']
+                    
+                    # Calculate unrealized P&L for each open position
+                    for trade in open_positions:
+                        if trade.ticker in close_prices.columns:
+                            current_price = close_prices[trade.ticker].iloc[-1]  # Latest close
+                            position_value = current_price * trade.quantity
+                            entry_value = trade.entry_price * trade.quantity
+                            unrealized_pnl += position_value - entry_value
+                            current_market_value += position_value
+            except Exception as e:
+                # If price fetch fails, fall back to entry price calculation
+                print(f"Warning: Failed to fetch live prices for MtM: {e}")
+                current_market_value = sum(t.entry_price * t.quantity for t in open_positions)
+        
+        # Calculate total portfolio value with MtM
+        realized_pnl = stats['total_pnl']
+        total_value = initial_capital + realized_pnl + unrealized_pnl
+        
+        # Cash balance = Total Value - Current Market Value of Open Positions
+        cash_balance = total_value - current_market_value
+        
+        # Total P&L = Realized + Unrealized
+        total_pnl = realized_pnl + unrealized_pnl
+        
+        # Calculate returns based on MtM
         total_return = (total_pnl / initial_capital) * 100 if initial_capital > 0 else 0
         
         # Win rate
@@ -138,13 +183,14 @@ class TradeService:
         return PortfolioMetrics(
             total_value=total_value,
             cash_balance=cash_balance,
-            invested_value=invested_value,
+            invested_value=current_market_value,
             total_return=total_return,
             total_trades=stats['total_trades'],
             winning_trades=stats['winning_trades'],
             losing_trades=stats['losing_trades'],
             win_rate=win_rate,
             total_pnl=total_pnl,
+            unrealized_pnl=unrealized_pnl,
             avg_pnl_per_trade=avg_pnl,
             best_trade=stats['best_trade'],
             worst_trade=stats['worst_trade']

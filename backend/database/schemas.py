@@ -146,6 +146,7 @@ class PortfolioMetrics(BaseModel):
     
     # P&L
     total_pnl: float = Field(default=0, description="Total P&L in AUD")
+    unrealized_pnl: float = Field(default=0, description="Unrealized P&L from open positions (Mark-to-Market)")
     avg_pnl_per_trade: Optional[float] = None
     best_trade: Optional[float] = None
     worst_trade: Optional[float] = None

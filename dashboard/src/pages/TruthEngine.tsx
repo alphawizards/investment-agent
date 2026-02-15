@@ -5,44 +5,99 @@
  * Displays DSR/PSR metrics, graveyard statistics, and regime analysis.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     AlphaMatrix,
     RegimeChart,
     DrawdownChart,
-    MOCK_STRATEGIES,
-    GRAVEYARD_STATS
 } from '../components/truth-engine';
 import { StrategyMetrics } from '../types/strategy';
+import { fetchValidationFromReports } from '../services/validationApi';
 import {
     Shield,
     AlertTriangle,
     CheckCircle,
     XCircle,
     TrendingUp,
-    Activity
+    Activity,
+    Loader2
 } from 'lucide-react';
 
 export const TruthEngine: React.FC = () => {
-    const [selectedStrategy, setSelectedStrategy] = useState<StrategyMetrics | null>(
-        MOCK_STRATEGIES[0]
-    );
+    const [strategies, setStrategies] = useState<StrategyMetrics[]>([]);
+    const [selectedStrategy, setSelectedStrategy] = useState<StrategyMetrics | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [totalTrials, setTotalTrials] = useState<number>(0);
+
+    // Fetch data on mount
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchValidationFromReports();
+                setStrategies(data.strategies);
+                setTotalTrials(data.total_trials_rejected + data.total_trials_accepted);
+                
+                if (data.strategies.length > 0) {
+                    setSelectedStrategy(data.strategies[0]);
+                }
+            } catch (err) {
+                console.error("Failed to load Truth Engine data:", err);
+                setError("Failed to load validation metrics. Ensure backend is running and reports exist.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
+    }, []);
 
     // Derive summary stats
     const summaryStats = useMemo(() => {
-        const significant = MOCK_STRATEGIES.filter(s => s.validity.is_significant);
-        const avgDSR = MOCK_STRATEGIES.reduce((sum, s) => sum + s.validity.dsr, 0) / MOCK_STRATEGIES.length;
-        const avgPSR = MOCK_STRATEGIES.reduce((sum, s) => sum + s.validity.psr, 0) / MOCK_STRATEGIES.length;
+        if (strategies.length === 0) return null;
+
+        const significant = strategies.filter(s => s.validity.is_significant);
+        const avgDSR = strategies.reduce((sum, s) => sum + s.validity.dsr, 0) / strategies.length;
+        const avgPSR = strategies.reduce((sum, s) => sum + s.validity.psr, 0) / strategies.length;
 
         return {
-            total: MOCK_STRATEGIES.length,
+            total: strategies.length,
             significant: significant.length,
-            rejected: MOCK_STRATEGIES.length - significant.length,
+            rejected: strategies.length - significant.length,
             avgDSR: avgDSR.toFixed(2),
             avgPSR: (avgPSR * 100).toFixed(1),
-            totalTrials: GRAVEYARD_STATS.total_trials_tested
+            totalTrials: totalTrials > 0 ? totalTrials : strategies.reduce((sum, s) => sum + s.validity.num_trials, 0)
         };
-    }, []);
+    }, [strategies, totalTrials]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-500">
+                <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+                    <p>Loading validation metrics...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center text-red-400">
+                <div className="flex flex-col items-center gap-3 bg-slate-900 p-6 rounded-xl border border-red-500/30">
+                    <AlertTriangle className="w-8 h-8" />
+                    <p>{error}</p>
+                    <button 
+                        onClick={() => window.location.reload()}
+                        className="mt-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-slate-950 text-white">
@@ -66,56 +121,58 @@ export const TruthEngine: React.FC = () => {
             <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
                 {/* Summary Stats Bar */}
-                <section className="grid grid-cols-6 gap-4">
-                    <StatCard
-                        icon={<Activity className="w-5 h-5" />}
-                        label="Strategies"
-                        value={summaryStats.total.toString()}
-                        color="slate"
-                    />
-                    <StatCard
-                        icon={<CheckCircle className="w-5 h-5" />}
-                        label="Significant"
-                        value={summaryStats.significant.toString()}
-                        color="emerald"
-                    />
-                    <StatCard
-                        icon={<XCircle className="w-5 h-5" />}
-                        label="Rejected"
-                        value={summaryStats.rejected.toString()}
-                        color="red"
-                    />
-                    <StatCard
-                        icon={<Shield className="w-5 h-5" />}
-                        label="Avg DSR"
-                        value={summaryStats.avgDSR}
-                        color="cyan"
-                    />
-                    <StatCard
-                        icon={<TrendingUp className="w-5 h-5" />}
-                        label="Avg PSR"
-                        value={`${summaryStats.avgPSR}%`}
-                        color="violet"
-                    />
-                    <StatCard
-                        icon={<AlertTriangle className="w-5 h-5" />}
-                        label="⚰️ Graveyard"
-                        value={summaryStats.totalTrials.toString()}
-                        color="amber"
-                    />
-                </section>
+                {summaryStats && (
+                    <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <StatCard
+                            icon={<Activity className="w-5 h-5" />}
+                            label="Strategies"
+                            value={summaryStats.total.toString()}
+                            color="slate"
+                        />
+                        <StatCard
+                            icon={<CheckCircle className="w-5 h-5" />}
+                            label="Significant"
+                            value={summaryStats.significant.toString()}
+                            color="emerald"
+                        />
+                        <StatCard
+                            icon={<XCircle className="w-5 h-5" />}
+                            label="Rejected"
+                            value={summaryStats.rejected.toString()}
+                            color="red"
+                        />
+                        <StatCard
+                            icon={<Shield className="w-5 h-5" />}
+                            label="Avg DSR"
+                            value={summaryStats.avgDSR}
+                            color="cyan"
+                        />
+                        <StatCard
+                            icon={<TrendingUp className="w-5 h-5" />}
+                            label="Avg PSR"
+                            value={`${summaryStats.avgPSR}%`}
+                            color="violet"
+                        />
+                        <StatCard
+                            icon={<AlertTriangle className="w-5 h-5" />}
+                            label="⚰️ Graveyard"
+                            value={summaryStats.totalTrials.toString()}
+                            color="amber"
+                        />
+                    </section>
+                )}
 
                 {/* Alpha Matrix */}
                 <section>
                     <AlphaMatrix
-                        strategies={MOCK_STRATEGIES}
+                        strategies={strategies}
                         onSelectStrategy={setSelectedStrategy}
                     />
                 </section>
 
                 {/* Microscope View */}
                 {selectedStrategy && (
-                    <section className="space-y-6">
+                    <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="flex items-center gap-3">
                             <h2 className="text-lg font-semibold text-slate-100">
                                 🔬 Microscope: {selectedStrategy.name}
@@ -142,30 +199,32 @@ export const TruthEngine: React.FC = () => {
                             />
                         </div>
 
-                        {/* Regime Performance Breakdown */}
-                        <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-                            <h3 className="text-lg font-semibold text-slate-100 mb-4">
-                                Regime Performance Breakdown
-                            </h3>
-                            <div className="grid grid-cols-4 gap-4">
-                                {selectedStrategy.regime_performance.map((rp, i) => (
-                                    <div key={i} className="bg-slate-800/50 rounded-xl p-4">
-                                        <div className="text-xs text-slate-500 mb-2 uppercase tracking-wide">
-                                            {rp.regime}
+                        {/* Regime Performance Breakdown - Only show if data exists */}
+                        {selectedStrategy.regime_performance && selectedStrategy.regime_performance.length > 0 && (
+                            <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+                                <h3 className="text-lg font-semibold text-slate-100 mb-4">
+                                    Regime Performance Breakdown
+                                </h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {selectedStrategy.regime_performance.map((rp, i) => (
+                                        <div key={i} className="bg-slate-800/50 rounded-xl p-4">
+                                            <div className="text-xs text-slate-500 mb-2 uppercase tracking-wide">
+                                                {rp.regime}
+                                            </div>
+                                            <div className="text-2xl font-bold text-slate-100 mb-1">
+                                                {rp.sharpe.toFixed(2)}
+                                            </div>
+                                            <div className="text-xs text-slate-400">
+                                                Sharpe • {(rp.return_pct * 100).toFixed(1)}% return
+                                            </div>
+                                            <div className="text-xs text-slate-500 mt-1">
+                                                {rp.days} days
+                                            </div>
                                         </div>
-                                        <div className="text-2xl font-bold text-slate-100 mb-1">
-                                            {rp.sharpe.toFixed(2)}
-                                        </div>
-                                        <div className="text-xs text-slate-400">
-                                            Sharpe • {(rp.return_pct * 100).toFixed(1)}% return
-                                        </div>
-                                        <div className="text-xs text-slate-500 mt-1">
-                                            {rp.days} days
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </section>
                 )}
             </main>
