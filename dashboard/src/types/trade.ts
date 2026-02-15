@@ -76,6 +76,7 @@ export interface PortfolioMetrics {
   losing_trades: number;
   win_rate?: number;
   total_pnl: number;
+  unrealized_pnl?: number;
   avg_pnl_per_trade?: number;
   best_trade?: number;
   worst_trade?: number;
