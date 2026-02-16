@@ -7,24 +7,28 @@ Refactored to support full async operations.
 """
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.concurrency import run_in_threadpool
 from typing import List, Optional
 from datetime import datetime, timedelta
 import math
 import os
+import logging
 
 from ..repositories.trade_repository import TradeRepository
-from ..database.models import Trade, TradeStatus
+from ..database.models import Trade, TradeStatus, PortfolioSnapshot
 
 # Import FastDataLoader for Mark-to-Market calculations
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "strategy"))
-from fast_data_loader import FastDataLoader
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from strategy.fast_data_loader import FastDataLoader
 
 from ..database.schemas import (
     TradeCreate, TradeUpdate, TradeResponse, TradeListResponse,
     PortfolioMetrics, DashboardSummary
 )
+
+logger = logging.getLogger(__name__)
 
 
 class TradeService:
@@ -135,30 +139,64 @@ class TradeService:
             
             try:
                 # Initialize FastDataLoader to get current prices
-                data_loader = FastDataLoader(
-                    cache_dir=Path("cache"),
-                    use_tiingo=os.getenv("TIINGO_API_KEY") is not None,
-                    use_yfinance=True,
-                    verbose=False
-                )
+                # Use thread pool since data fetching/Parquet reading is blocking
+                def _fetch_prices():
+                    # Need AUD/USD for US stocks conversion
+                    all_tickers = tickers.copy()
+                    has_us_stocks = any(not t.endswith('.AX') for t in tickers)
+                    if has_us_stocks:
+                        all_tickers.append('AUDUSD=X')
+                        
+                    data_loader = FastDataLoader(
+                        tiingo_api_token=os.getenv("TIINGO_API_KEY"),
+                        verbose=False
+                    )
+                    return data_loader.fetch_prices_fast(all_tickers, use_cache=True)
                 
-                # Fetch latest prices (delta loading will get most recent)
-                price_data = data_loader.fetch_prices_fast(tickers, use_cache=True)
+                price_data = await run_in_threadpool(_fetch_prices)
                 
                 if 'close' in price_data and not price_data['close'].empty:
                     close_prices = price_data['close']
                     
+                    # Get latest FX rate (default to 0.65 if fetch fails)
+                    fx_rate = 0.65
+                    if 'AUDUSD=X' in close_prices.columns:
+                        fx_series = close_prices['AUDUSD=X'].dropna()
+                        if not fx_series.empty:
+                            fx_rate = float(fx_series.iloc[-1])
+                    
                     # Calculate unrealized P&L for each open position
                     for trade in open_positions:
                         if trade.ticker in close_prices.columns:
-                            current_price = close_prices[trade.ticker].iloc[-1]  # Latest close
-                            position_value = current_price * trade.quantity
-                            entry_value = trade.entry_price * trade.quantity
-                            unrealized_pnl += position_value - entry_value
-                            current_market_value += position_value
+                            # Get the most recent price that isn't NaN
+                            series = close_prices[trade.ticker].dropna()
+                            if not series.empty:
+                                current_price = float(series.iloc[-1])
+                                
+                                # Convert USD price to AUD if needed
+                                # Assumes trade.currency='AUD' but ticker is US
+                                if not trade.ticker.endswith('.AX') and trade.currency == 'AUD':
+                                    # Price is in USD, convert to AUD
+                                    current_price_aud = current_price / fx_rate
+                                else:
+                                    current_price_aud = current_price
+                                    
+                                position_value = current_price_aud * trade.quantity
+                                entry_value = trade.entry_price * trade.quantity
+                                unrealized_pnl += position_value - entry_value
+                                current_market_value += position_value
+                            else:
+                                # Fallback if series is empty after dropna
+                                current_market_value += trade.entry_price * trade.quantity
+                        else:
+                            # Fallback for missing ticker in price data
+                            current_market_value += trade.entry_price * trade.quantity
+                else:
+                    # Fallback if no price data returned
+                    current_market_value = sum(t.entry_price * t.quantity for t in open_positions)
             except Exception as e:
                 # If price fetch fails, fall back to entry price calculation
-                print(f"Warning: Failed to fetch live prices for MtM: {e}")
+                logger.error(f"Error fetching live prices for MtM: {e}")
                 current_market_value = sum(t.entry_price * t.quantity for t in open_positions)
         
         # Calculate total portfolio value with MtM
@@ -245,3 +283,65 @@ class TradeService:
         stats = await self.repository.get_statistics()
         seq = stats['total_trades'] + 1
         return f"{prefix}-{now.strftime('%Y%m%d')}-{seq:04d}"
+    
+    # ============== PORTFOLIO SNAPSHOT ==============
+    
+    async def take_portfolio_snapshot(
+        self,
+        initial_capital: float = 100000.0,
+        save_to_db: bool = True
+    ) -> PortfolioSnapshot:
+        """
+        Take a snapshot of the current portfolio state.
+        
+        Calculates current Mark-to-Market (MtM) value and optionally saves
+        to the database for historical tracking.
+        
+        Args:
+            initial_capital: Starting capital for return calculations
+            save_to_db: Whether to persist the snapshot to database
+            
+        Returns:
+            PortfolioSnapshot object with current portfolio state
+        """
+        # Get current portfolio metrics (includes MtM calculation)
+        metrics = await self.get_portfolio_metrics(initial_capital)
+        
+        # Get current positions for position count
+        open_positions = await self.repository.get_open_positions()
+        
+        # Calculate daily return (simplified - compare to previous snapshot if exists)
+        daily_return = None
+        cumulative_return = metrics.total_return / 100.0 if metrics.total_return else 0
+        
+        # Get latest snapshot for daily return calculation
+        latest_snapshot = await self.repository.get_latest_snapshot()
+        if latest_snapshot:
+            # Calculate daily return as percentage change
+            if latest_snapshot.total_value > 0:
+                daily_return = (metrics.total_value - latest_snapshot.total_value) / latest_snapshot.total_value
+        
+        now = datetime.utcnow()
+        
+        # Create snapshot object
+        snapshot = PortfolioSnapshot(
+            snapshot_date=now,
+            total_value=metrics.total_value,
+            cash_balance=metrics.cash_balance,
+            invested_value=metrics.invested_value,
+            daily_return=daily_return,
+            cumulative_return=cumulative_return,
+            num_positions=len(open_positions),
+            event_timestamp=now
+        )
+        
+        if save_to_db:
+            # Save to database
+            self.db.add(snapshot)
+            await self.db.commit()
+            await self.db.refresh(snapshot)
+            logger.info(f"Portfolio snapshot saved: ${metrics.total_value:,.2f}")
+        else:
+            logger.info(f"Portfolio snapshot calculated (not saved): ${metrics.total_value:,.2f}")
+        
+        return snapshot

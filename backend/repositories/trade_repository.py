@@ -11,7 +11,7 @@ from sqlalchemy import select, desc, func, and_, delete as sa_delete
 from typing import List, Optional, Tuple
 from datetime import datetime
 
-from ..database.models import Trade, TradeStatus, TradeDirection
+from ..database.models import Trade, TradeStatus, TradeDirection, PortfolioSnapshot
 from ..database.schemas import TradeCreate, TradeUpdate
 from ..config import settings
 
@@ -324,3 +324,28 @@ class TradeRepository:
             }
             for r in result.all()
         ]
+    
+    # ============== PORTFOLIO SNAPSHOTS ==============
+    
+    async def get_latest_snapshot(self) -> Optional[PortfolioSnapshot]:
+        """Get the most recent portfolio snapshot."""
+        query = select(PortfolioSnapshot).order_by(desc(PortfolioSnapshot.snapshot_date)).limit(1)
+        result = await self.db.execute(query)
+        return result.scalars().first()
+    
+    async def get_snapshots_in_period(
+        self,
+        start_date: datetime,
+        end_date: datetime = None
+    ) -> List[PortfolioSnapshot]:
+        """Get all snapshots within a date range."""
+        end_date = end_date or datetime.utcnow()
+        query = select(PortfolioSnapshot).filter(
+            and_(
+                PortfolioSnapshot.snapshot_date >= start_date,
+                PortfolioSnapshot.snapshot_date <= end_date
+            )
+        ).order_by(PortfolioSnapshot.snapshot_date)
+        
+        result = await self.db.execute(query)
+        return list(result.scalars().all())
