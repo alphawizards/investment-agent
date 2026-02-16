@@ -50,6 +50,7 @@ class ScanRequest(BaseModel):
     min_price: float = Field(default=5.0)
     max_price: float = Field(default=500.0)
     min_volume: int = Field(default=100000)
+    min_score: float = Field(default=0.0, description="Minimum score threshold")
     custom_tickers: Optional[List[str]] = Field(default=None)
 
 
@@ -148,6 +149,10 @@ async def run_scan(
         try:
             # CPU intensive/synchronous part
             def _scan_logic():
+                import os
+                from strategy.quant1.scanner.quallamaggie_scanner import QuallamaggieScanner
+                from strategy.fast_data_loader import FastDataLoader
+                
                 # Get tickers
                 if request.custom_tickers:
                     tickers = request.custom_tickers
@@ -157,24 +162,45 @@ async def run_scan(
                     get_tickers = universe_map.get(request.universe, get_sp500_tickers)
                     tickers = get_tickers()
                 
-                # Mock scanning logic
-                results = []
-                sample_tickers = random.sample(tickers, min(20, len(tickers)))
-                for ticker in sample_tickers:
-                    score = random.uniform(0, 100)
-                    signal = "BUY" if score > 70 else "WATCH" if score > 40 else "HOLD"
-                    results.append({
-                        "ticker": ticker,
-                        "name": ticker,
-                        "price": round(random.uniform(request.min_price, request.max_price), 2),
-                        "change_pct": round(random.uniform(-5, 10), 2),
-                        "volume": random.randint(request.min_volume, request.min_volume * 10),
-                        "signal": signal,
-                        "score": round(score, 1),
-                        "details": {"pattern": "High Tight Flag" if score > 60 else "Consolidation"}
-                    })
-                results.sort(key=lambda x: x["score"], reverse=True)
-                return tickers, results
+                # Use FastDataLoader to fetch prices for all tickers efficiently
+                # This enables scanning 500+ stocks in under 60 seconds
+                data_loader = FastDataLoader(
+                    tiingo_api_token=os.getenv("TIINGO_API_KEY"),
+                    verbose=False
+                )
+                
+                # Fetch recent price data for all tickers
+                price_data = data_loader.fetch_prices_fast(
+                    tickers,
+                    use_cache=True
+                )
+                
+                # Run the actual Quallamaggie scanner with real data
+                scanner = QuallamaggieScanner()
+                results = scanner.scan(tickers)
+                
+                # Filter by score threshold
+                min_score = request.min_score if hasattr(request, 'min_score') else 0
+                filtered_results = [r for r in results if r.get('score', 0) >= min_score]
+                
+                # Add price data to results if available
+                if 'close' in price_data and not price_data['close'].empty:
+                    close_prices = price_data['close']
+                    for r in filtered_results:
+                        ticker = r.get('ticker')
+                        if ticker and ticker in close_prices.columns:
+                            series = close_prices[ticker].dropna()
+                            if not series.empty:
+                                r['price'] = round(float(series.iloc[-1]), 2)
+                                if len(series) > 1:
+                                    prev_price = float(series.iloc[-2])
+                                    curr_price = float(series.iloc[-1])
+                                    r['change_pct'] = round(((curr_price - prev_price) / prev_price) * 100, 2)
+                
+                # Sort by score descending
+                filtered_results.sort(key=lambda x: x.get('score', 0), reverse=True)
+                
+                return tickers, filtered_results
 
             tickers, results = await run_in_threadpool(_scan_logic)
             
